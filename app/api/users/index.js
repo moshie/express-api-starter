@@ -8,7 +8,7 @@ const storeController = require('./controllers/store-controller');
 // Needs Auth
 
 /* POST store */
-router.post('/store', storeValidator, storeController);
+router.post('/', storeValidator, storeController);
 
 // is_confirmed
 

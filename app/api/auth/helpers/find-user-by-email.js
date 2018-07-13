@@ -5,17 +5,19 @@ const ResponseError = require('../../../error-handlers/response-error');
 
 function findUserByEmail (email) {
     return new Promise((resolve, reject) => {
-        User.findOne({ email }, function (err, user) {
-            if (err) {
-                return reject(new ResponseError(err.message));
-            }
+        User.findOne({ email })
+            .populate({ path: 'roles', select: 'name' })
+            .exec(function (err, user) {
+                if (err) {
+                    return reject(new ResponseError(err.message));
+                }
 
-            if (user === null) {
-                return reject(new ResponseError('Unauthorized', 401));
-            }
+                if (user === null) {
+                    return reject(new ResponseError('Unauthorized', 401));
+                }
 
-            resolve(user);
-        });
+                resolve(user);
+            });
     });
 }
 

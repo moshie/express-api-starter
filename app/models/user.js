@@ -3,8 +3,9 @@
 const mongoose = require('mongoose');
 const { hash } = require('bcrypt');
 const generateToken = require('../api/auth/helpers/generate-token');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     first_name: {
         type: String,
         lowercase: true,
@@ -21,6 +22,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }],
     confirmation_token: {
         type: String
     },
