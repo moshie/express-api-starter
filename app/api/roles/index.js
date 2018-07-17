@@ -5,21 +5,27 @@ const router = express.Router();
 
 // Validator
 //
-
+const createValidator = require('./validators/create-validator');
 
 // Controllers
 //
-
+const createController = require('./controllers/create-controller');
 
 // Middleware
 //
-const authenticate = require('./middleware/authenticate');
+const authenticate = require('../auth/middleware/authenticate');
+const hasPermission = require('./middleware/has-permission');
+const hasRole = require('./middleware/has-role');
 
-/* POST Login */
+
+
+/* POST roles */
+router.post('/', authenticate, hasRole('admin'), createValidator, createController);
+
+/* GET roles */
+//router.get('/', authenticate, hasRole('admin'), createController);
+
 /*
-
-# ROLES
-POST    /roles/             -- Create a new role
 GET     /roles/             -- Get all roles
 GET     /roles/:role_id/    -- Get role by id
 PUT     /roles/:role_id/    -- Update a role

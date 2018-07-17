@@ -7,8 +7,8 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 
 const auth = require('./api/auth');
-const auth = require('./api/roles');
-const auth = require('./api/permissions');
+const roles = require('./api/roles');
+const permissions = require('./api/permissions');
 const users = require('./api/users');
 
 const app = express();

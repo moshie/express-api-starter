@@ -20,7 +20,7 @@ const confirmationController = require('./controllers/confirmation-controller');
 
 // Middleware
 //
-const authenticate = require('./middleware/authenticate');
+// const authenticate = require('./middleware/authenticate');
 
 /* POST Login */
 router.post('/login', loginValidator, loginController);

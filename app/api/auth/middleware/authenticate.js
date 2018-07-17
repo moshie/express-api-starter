@@ -28,6 +28,9 @@ function authenticate(req, res, next) {
             });
         }
 
+        res.locals.authenticated = true;
+        res.locals.token = decoded;
+
         next();
     });
 }

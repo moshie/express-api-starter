@@ -13,7 +13,7 @@ const router = express.Router();
 
 // Middleware
 //
-const authenticate = require('./middleware/authenticate');
+//const authenticate = require('./middleware/authenticate');
 
 /*
 
