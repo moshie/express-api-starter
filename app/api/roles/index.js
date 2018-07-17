@@ -5,36 +5,52 @@ const router = express.Router();
 
 // Validator
 //
-const createValidator = require('./validators/create-validator');
+const roleValidator = require('./validators/role-validator');
 
 // Controllers
 //
-const createController = require('./controllers/create-controller');
+const {
+    store,
+    index,
+    show,
+    update,
+    remove
+} = require('./controllers/resource-controller');
 
 // Middleware
 //
 const authenticate = require('../auth/middleware/authenticate');
-const hasPermission = require('./middleware/has-permission');
+// const hasPermission = require('./middleware/has-permission');
 const hasRole = require('./middleware/has-role');
 
 
-
-/* POST roles */
-router.post('/', authenticate, hasRole('admin'), createValidator, createController);
+/* POST role */
+router.post('/', authenticate, hasRole('admin'), roleValidator, store);
 
 /* GET roles */
-//router.get('/', authenticate, hasRole('admin'), createController);
+router.get('/', authenticate, hasRole('admin'), index);
 
-/*
-GET     /roles/             -- Get all roles
-GET     /roles/:role_id/    -- Get role by id
-PUT     /roles/:role_id/    -- Update a role
-DELETE  /roles/:role_id/    -- Delete a role
+/* GET role */
+router.get('/:role_name', authenticate, hasRole('admin'), show);
 
-GET     /roles/:role_id/permissions/                -- Get a roles permissions
-GET     /roles/:role_id/users/                      -- Get Users in a role
-PUT     /roles/:role_id/users/                      -- Assign multiple users to a role ["ID", "ID", "ID"]
+/* PUT role */
+router.put('/:role_name', authenticate, hasRole('admin'), roleValidator, update);
+
+/* DELETE role */
+router.delete('/:role_name', authenticate, hasRole('admin'), roleValidator, remove);
+
+/* GET role permissions */
+router.get('/:role_name/permissions', authenticate, hasRole('admin'), function () {
+    // Get a roles permissions
+});
 
 
-*/
+router.get('/:role_name/users', authenticate, hasRole('admin'), function () {
+    // Get Users in a role
+});
+
+router.put('/:role_name/users', authenticate, hasRole('admin'), function () {
+    // Assign multiple users to a role ["ID", "ID", "ID"]
+});
+
 module.exports = router;
