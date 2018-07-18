@@ -9,7 +9,10 @@ const router = express.Router();
 
 // Controllers
 //
-
+const meController = require('./controllers/me-controller');
+const rolesController = require('./controllers/roles-controller');
+const permissionsController = require('./controllers/permissions-controller');
+const confirmationController = require('./controllers/confirmation-controller');
 
 // Middleware
 //
@@ -22,42 +25,34 @@ const hasRole = require('../roles/middleware/has-role');
 //
 
 /* GET me */
-router.get('/me', authenticate, function () {
-    // Get authenticated user
-});
+router.get('/me', authenticate, meController);
 
 /* GET user roles */
-router.get('/roles', authenticate, function () {
-    // Get authenticated user's roles
-});
+router.get('/roles', authenticate, rolesController);
 
 /* GET user permissions */
-router.get('/permissions', authenticate, function () {
-    // Get authenticated user's permissions
-});
+router.get('/permissions', authenticate, permissionsController);
 
 /* GET user confirmed */
-router.get('/confirmed', authenticate, function () {
-    // Checks if user is confirmed or not
-});
+router.get('/confirmed', authenticate, confirmationController);
 
 // Administrator Endpoints
 //
 
 /* POST user */
-router.post('/', authenticate, hasRole('admin'), userValidator, store);
+// router.post('/', authenticate, hasRole('admin'), userValidator, store);
 
 /* GET users */
-router.get('/', authenticate, hasRole('admin'), index);
+// router.get('/', authenticate, hasRole('admin'), index);
 
 /* GET user */
-router.get('/:email', authenticate, hasRole('admin'), show);
+// router.get('/:email', authenticate, hasRole('admin'), show);
 
 /* PUT user */
-router.put('/:email', authenticate, hasRole('admin'), userValidator, update);
+// router.put('/:email', authenticate, hasRole('admin'), userValidator, update);
 
 /* DELETE user */
-router.delete('/:email', authenticate, hasRole('admin'), remove);
+// router.delete('/:email', authenticate, hasRole('admin'), remove);
 
 /* GET user roles */
 router.get('/:email/roles', authenticate, hasRole('admin'), function () {

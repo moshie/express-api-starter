@@ -20,7 +20,12 @@ function getRolesPermissions(roles) {
             })
     }));
 
-    return Promise.all(promises).then(permissions => permissions.reduce((acc, val) => acc.concat(val), []))
+    return Promise.all(promises)
+        .then(permissions => {
+            return permissions
+                .reduce((acc, val) => acc.concat(val), [])
+                .filter((permission, index, self) => self.indexOf(permission) === index);
+        })
 }
 
 module.exports = getRolesPermissions;

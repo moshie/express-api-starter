@@ -3,6 +3,11 @@
 const mongoose = require('mongoose');
 
 const permissionsSchema = new mongoose.Schema({
+    display_name: {
+        type: String,
+        trim: true,
+        required: true
+    },
     name: {
         type: String,
         unique: true,
