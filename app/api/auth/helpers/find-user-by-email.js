@@ -6,7 +6,7 @@ const ResponseError = require('../../../error-handlers/response-error');
 function findUserByEmail (email) {
     return new Promise((resolve, reject) => {
         User.findOne({ email })
-            .populate({ path: 'roles', select: 'name' })
+            .populate('roles')
             .exec(function (err, user) {
                 if (err) {
                     return reject(new ResponseError(err.message));

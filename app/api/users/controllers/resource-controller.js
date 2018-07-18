@@ -1,10 +1,10 @@
 "use strict";
 
 const User = require('../../../models/user');
-const mailer = require('../../../services/mailer-service');
 const { validationResult } = require('express-validator/check');
 
-function registrationController(req, res) {
+exports.store = function (req, res) {
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -28,10 +28,25 @@ function registrationController(req, res) {
         .then(() => res.status(201).json({
             data: { message: 'User Created' }
         }))
-        .catch(err => res.status(err.statusCode || 500).json({
+        .catch(err => res.status(500).json({
             data: { message: err.message }
         }));
 
 }
 
-module.exports = registrationController;
+exports.index = function (req, res) {
+
+}
+
+
+exports.show = function (req, res) {
+
+}
+
+exports.update = function (req, res) {
+
+}
+
+exports.remove = function (req, res) {
+
+}

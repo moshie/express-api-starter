@@ -15,11 +15,13 @@ function hasRole(role) {
             return forbidden();
         }
 
-        if (typeof role === 'string' && res.locals.token.roles.indexOf(role) === -1) {
+        const roles = res.locals.token.roles;
+
+        if (typeof role === 'string' && !hasRoles(roles, [role])) {
             return forbidden();
         }
 
-        if (Array.isArray(role) && !hasRoles(res.locals.token.roles, role)) {
+        if (Array.isArray(role) && !hasRoles(roles, role)) {
             return forbidden();
         }
 

@@ -45,7 +45,7 @@ router.delete('/:role_name', authenticate, hasRole('admin'), remove);
 router.get('/:role_name/permissions', authenticate, hasRole('admin'), rolesPermissionsController);
 
 /* PUT role users */
-router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController); // PUT or POST?
+router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController);
 
 /* PUT role user */
 router.put('/:role_name/users/:email', authenticate, hasRole('admin'), function () {

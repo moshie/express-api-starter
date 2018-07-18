@@ -1,11 +1,12 @@
 "use strict";
 
 const ResponseError = require('../../../error-handlers/response-error');
+const hasRoles = require('./has-roles');
 
 function updateUserRole(role, user) {
     return new Promise((resolve, reject) => {
 
-        if (user.roles.indexOf(role.name) !== -1) {
+        if (hasRoles(user.roles, [role.name])) {
             // User already has that role
             return resolve(user);
         }

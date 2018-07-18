@@ -22,7 +22,7 @@ function forgottenController(req, res) {
         .then(info => res.status(200).json({
             data: { message: 'Forgotten Password E-mail sent successfully' } 
         }))
-        .catch(err => res.status(err.statusCode).json({
+        .catch(err => res.status(err.statusCode || 500).json({
             data: { message: err.message } 
         }));
 

@@ -20,7 +20,7 @@ exports.store = function (req, res) {
     });
 
     role.save()
-        .then(() => res.status(200).json({
+        .then(() => res.status(201).json({
             data: { message: 'Role Created' }
         }))
         .catch(err => res.status(500).json({

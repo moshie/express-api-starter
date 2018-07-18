@@ -21,7 +21,7 @@ function rolesUsersController(req, res) {
         .then(user => res.status(200).json({
             data: { message: 'User role updated' }
         }))
-        .catch(err => res.status(err.statusCode).json({
+        .catch(err => res.status(err.statusCode || 500).json({
             data: { message: err.message }
         }));
 

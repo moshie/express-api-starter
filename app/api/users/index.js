@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Validator
 //
-
+const registrationValidator = require('../auth/validators/registration-validator');
 
 // Controllers
 //
@@ -13,6 +13,9 @@ const meController = require('./controllers/me-controller');
 const rolesController = require('./controllers/roles-controller');
 const permissionsController = require('./controllers/permissions-controller');
 const confirmationController = require('./controllers/confirmation-controller');
+const {
+    store
+} = require('./controllers/resource-controller');
 
 // Middleware
 //
@@ -40,7 +43,7 @@ router.get('/confirmed', authenticate, confirmationController);
 //
 
 /* POST user */
-// router.post('/', authenticate, hasRole('admin'), userValidator, store);
+router.post('/', authenticate, hasRole('admin'), registrationValidator, store);
 
 /* GET users */
 // router.get('/', authenticate, hasRole('admin'), index);

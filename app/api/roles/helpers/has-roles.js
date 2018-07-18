@@ -3,9 +3,12 @@
 function hasRoles(usersRoles, roles) {
     var hasRole = false;
 
+    usersRoles = usersRoles.map(role => role.name);
+
     for (let i = 0; i < roles.length; i++) {
-        if (usersRoles.indexOf(role[i]) !== -1) {
+        if (usersRoles.indexOf(roles[i]) !== -1) {
             hasRole = true;
+            break;
         }
     }
 
