@@ -5,6 +5,10 @@ const Role = require('../../../models/roles');
 
 const createValidation = [
 
+    body('display_name')
+        .exists().isString().withMessage('Display name is invalid')
+        .not().isEmpty().withMessage('Display name is required'),
+
     body('name')
         .exists().isString().withMessage('Name is invalid')
         .not().isEmpty().withMessage('Name is a required field')

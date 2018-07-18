@@ -6,6 +6,7 @@ const router = express.Router();
 // Validator
 //
 const roleValidator = require('./validators/role-validator');
+const usersRoleValidator = require('./validators/users-role-validator');
 
 // Controllers
 //
@@ -16,13 +17,14 @@ const {
     update,
     remove
 } = require('./controllers/resource-controller');
+const rolesPermissionsController = require('./controllers/roles-permissions-controller');
+const usersRolesController = require('./controllers/users-roles-controller');
 
 // Middleware
 //
 const authenticate = require('../auth/middleware/authenticate');
-// const hasPermission = require('./middleware/has-permission');
+// const hasPermission = require('../permissions/middleware/has-permission');
 const hasRole = require('./middleware/has-role');
-
 
 /* POST role */
 router.post('/', authenticate, hasRole('admin'), roleValidator, store);
@@ -37,21 +39,22 @@ router.get('/:role_name', authenticate, hasRole('admin'), show);
 router.put('/:role_name', authenticate, hasRole('admin'), roleValidator, update);
 
 /* DELETE role */
-router.delete('/:role_name', authenticate, hasRole('admin'), roleValidator, remove);
+router.delete('/:role_name', authenticate, hasRole('admin'), remove);
 
 /* GET role permissions */
-router.get('/:role_name/permissions', authenticate, hasRole('admin'), function () {
-    // Get a roles permissions
-});
-
-/* GET role users */
-router.get('/:role_name/users', authenticate, hasRole('admin'), function () {
-    // Get Users in a role
-});
+router.get('/:role_name/permissions', authenticate, hasRole('admin'), rolesPermissionsController);
 
 /* PUT role users */
-router.put('/:role_name/users', authenticate, hasRole('admin'), function () {
-    // Assign multiple users to a role ["ID", "ID", "ID"]
+router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController); // PUT or POST?
+
+/* PUT role user */
+router.put('/:role_name/users/:email', authenticate, hasRole('admin'), function () {
+    // Assign a role to a user
+});
+
+/* DELETE role user */
+router.delete('/:role_name/users/:email', authenticate, hasRole('admin'), function () {
+    // Revoke a role from a user
 });
 
 module.exports = router;

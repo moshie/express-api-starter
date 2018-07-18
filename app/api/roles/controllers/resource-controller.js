@@ -5,7 +5,7 @@ const updateRole = require('../helpers/update-role');
 const getRoleByName = require('../helpers/get-role-by-name');
 const { validationResult } = require('express-validator/check');
 
-exports.create = function (req, res) {
+exports.store = function (req, res) {
 
     const errors = validationResult(req);
 
@@ -14,6 +14,7 @@ exports.create = function (req, res) {
     }
 
     var role = new Role({
+        display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description || ''
     });
@@ -34,6 +35,7 @@ exports.index = function (req, res) {
         .then(roles => res.status(200).json({
             data: {
                 roles: roles.map(role => ({ 
+                    display_name: role.display_name,
                     name: role.name,
                     description: role.description
                 })) || []
@@ -57,6 +59,7 @@ exports.show = function (req, res) {
         .then(role => res.status(200).json({
             data: {
                 role: {
+                    display_name: role.display_name,
                     name: role.name,
                     description: role.description
                 }
@@ -77,6 +80,7 @@ exports.update = function (req, res) {
     }
 
     updateRole(req.params.role_name, {
+        display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description
     })

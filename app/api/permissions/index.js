@@ -13,21 +13,39 @@ const router = express.Router();
 
 // Middleware
 //
-//const authenticate = require('./middleware/authenticate');
+const authenticate = require('../auth/middleware/authenticate');
+// const hasPermission = require('./middleware/has-permission');
+const hasRole = require('../roles/middleware/has-role');
 
-/*
 
-# PERMISSIONS
-POST    /permissions/                   -- Create a new permission
-GET     /permissions/                   -- Get all permissions
-GET     /permissions/:permissions_id/   -- Get permission by id
-PUT     /permissions/:permissions_id/   -- Update a permission
-DELETE  /permissions/:permissions_id/   -- Delete a permission
+/* POST permission */
+router.post('/', authenticate, hasRole('admin'), permissionValidator, store);
 
-PUT     /permissions/:permission_id/roles/:role_id/     -- Assign a permission to a role
-DELETE  /permissions/:permission_id/roles/:role_id/     -- Revoke a permission from a role
+/* GET permissions */
+router.get('/', authenticate, hasRole('admin'), index);
 
-*/
+/* GET permission */
+router.get('/:name', authenticate, hasRole('admin'), show);
 
+/* PUT permission */
+router.put('/:name', authenticate, hasRole('admin'), permissionValidator, update);
+
+/* DELETE permission */
+router.delete('/:name', authenticate, hasRole('admin'), remove);
+
+/* PUT permissions role */
+router.put('/:name/roles', authenticate, hasRole('admin'), function () { // PUT or POST?
+    // Assign multiple permissions to a role
+});
+
+/* PUT permission role */
+router.put('/:name/roles/:role_name', authenticate, hasRole('admin'), function () {
+    // Assign a permission to a role
+});
+
+/* DELETE permission role */
+router.delete('/:name/roles/:role_name', authenticate, hasRole('admin'), function () {
+    // Revoke a permission from a role
+});
 
 module.exports = router;

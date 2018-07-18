@@ -1,33 +1,87 @@
+"use strict";
+
 const express = require('express');
 const router = express.Router();
 
-const storeValidator = require('./validators/store-validator');
-
-const storeController = require('./controllers/store-controller');
-
-
-/*
-NEEDS AUTH!
-
-# USERS
-POST    /users/             -- Create a new User
-GET     /users/             -- Get all users
-GET     /users/:user_id/    -- Get user by id
-PUT     /users/:user_id/    -- Update a user
-DELETE  /users/:user_id/    -- Delete a user
-
-GET     /users/:user_id/roles/              -- Get a users roles
-PUT     /users/:user_id/roles/:role_id/     -- Assign a user a role
-DELETE  /users/:user_id/roles/:role_id/     -- Revoke a user a role
-
-GET     /users/:user_id/permissions/        -- Get a users current permissions
-
-GET     /users/:user_id/confirmed/          -- Checks if user is confirmed or not
-
-*/
+// Validator
+//
 
 
-/* POST store */
-router.post('/', storeValidator, storeController);
+// Controllers
+//
+
+
+// Middleware
+//
+const authenticate = require('../auth/middleware/authenticate');
+// const hasPermission = require('../permissions/middleware/has-permission');
+const hasRole = require('../roles/middleware/has-role');
+
+
+// Authenticated user endpoints
+//
+
+/* GET me */
+router.get('/me', authenticate, function () {
+    // Get authenticated user
+});
+
+/* GET user roles */
+router.get('/roles', authenticate, function () {
+    // Get authenticated user's roles
+});
+
+/* GET user permissions */
+router.get('/permissions', authenticate, function () {
+    // Get authenticated user's permissions
+});
+
+/* GET user confirmed */
+router.get('/confirmed', authenticate, function () {
+    // Checks if user is confirmed or not
+});
+
+// Administrator Endpoints
+//
+
+/* POST user */
+router.post('/', authenticate, hasRole('admin'), userValidator, store);
+
+/* GET users */
+router.get('/', authenticate, hasRole('admin'), index);
+
+/* GET user */
+router.get('/:email', authenticate, hasRole('admin'), show);
+
+/* PUT user */
+router.put('/:email', authenticate, hasRole('admin'), userValidator, update);
+
+/* DELETE user */
+router.delete('/:email', authenticate, hasRole('admin'), remove);
+
+/* GET user roles */
+router.get('/:email/roles', authenticate, hasRole('admin'), function () {
+    // Get a particular users roles
+});
+
+/* PUT user role */
+router.put('/:email/roles/:role_name', authenticate, hasRole('admin'), function () {
+    // Assign a user a role
+});
+
+/* DELETE user role */
+router.delete('/:email/roles/:role_name', authenticate, hasRole('admin'), function () {
+    // Revoke a user a role
+});
+
+/* GET user permissions */
+router.get('/:email/permissions', authenticate, hasRole('admin'), function () {
+    // Get a users current permissions
+});
+
+/* GET user confirmed */
+router.get('/:email/confirmed', authenticate, hasRole('admin'), function () {
+    // Checks if user is confirmed or not
+});
 
 module.exports = router;
