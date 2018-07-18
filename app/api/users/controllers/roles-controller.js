@@ -4,11 +4,13 @@ const findUserByEmail = require('../../auth/helpers/find-user-by-email');
 
 function rolesController(req, res) {
 
-    if (!res.locals.token && !res.locals.token.email) {
+    if (!res.locals.token && !res.locals.token.user) {
         return res.status(403).json({
             data: { message }
         });
     }
+
+    // TODO: Get User by ID
 
     findUserByEmail(res.locals.token.email)
         .then(user => res.status(200).json({

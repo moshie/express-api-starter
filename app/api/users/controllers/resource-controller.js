@@ -2,6 +2,7 @@
 
 const User = require('../../../models/user');
 const getUsers = require('../helpers/get-users');
+const updateUser = require('../helpers/update-user');
 const { validationResult } = require('express-validator/check');
 
 exports.store = function (req, res) {
@@ -78,8 +79,46 @@ exports.show = function (req, res) {
 
 exports.update = function (req, res) {
 
+    if (!req.params.email) {
+        return res.status(400).json({
+            data: { message: 'No Role Name provided' }
+        });
+    }
+
+    updateUser(req.params.email, {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+    })
+        .then(user => res.status(200).json({
+            data: {
+                user: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email
+                }
+            }
+        }))
+        .catch(err => res.status(500).json({
+            data: { message: err.message }
+        }));
+
 }
 
 exports.remove = function (req, res) {
+
+    if (!req.params.email) {
+        return res.status(400).json({
+            data: { message: 'No Role Name provided' }
+        });
+    }
+
+    User.deleteOne({ email: req.params.email })
+        .then(() => res.status(200).json({
+            data: { message: 'User removed successfully' }
+        }))
+        .catch(err => res.status(500).json({
+            data: { message: err.message }
+        }));
 
 }

@@ -15,13 +15,10 @@ function hasRole(role) {
             return forbidden();
         }
 
-        const roles = res.locals.token.roles;
+        const user = res.locals.token.user;
 
-        if (typeof role === 'string' && !hasRoles(roles, [role])) {
-            return forbidden();
-        }
-
-        if (Array.isArray(role) && !hasRoles(roles, role)) {
+        // TODO: Get User by id pass roles into hasRoles
+        if (!hasRoles(roles, typeof role === 'string' ? [role] : role)) {
             return forbidden();
         }
 

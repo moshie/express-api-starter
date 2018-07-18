@@ -6,6 +6,7 @@ const router = express.Router();
 // Validator
 //
 const registrationValidator = require('../auth/validators/registration-validator');
+const updateUserValidator = require('./validators/update-user-validator');
 
 // Controllers
 //
@@ -16,7 +17,9 @@ const confirmationController = require('./controllers/confirmation-controller');
 const {
     store,
     index,
-    show
+    show,
+    update,
+    remove
 } = require('./controllers/resource-controller');
 
 // Middleware
@@ -54,10 +57,10 @@ router.get('/', authenticate, hasRole('admin'), index);
 router.get('/:email', authenticate, hasRole('admin'), show);
 
 /* PUT user */
-// router.put('/:email', authenticate, hasRole('admin'), userValidator, update);
+router.put('/:email', authenticate, hasRole('admin'), updateUserValidator, update);
 
 /* DELETE user */
-// router.delete('/:email', authenticate, hasRole('admin'), remove);
+router.delete('/:email', authenticate, hasRole('admin'), remove);
 
 /* GET user roles */
 router.get('/:email/roles', authenticate, hasRole('admin'), function () {

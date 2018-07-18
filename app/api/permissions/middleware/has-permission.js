@@ -11,10 +11,11 @@ function hasPermission(permission) {
             });
         }
 
-        if (!res.locals.token && !res.locals.token.roles) {
+        if (!res.locals.token && !res.locals.token.user) {
             return Forbidden();
         }
 
+        // TODO: Get User by id 
         getRolesPermissions(res.locals.token.roles)
             .then(permissions => {
                 if (permissions.indexOf(permission) === -1) {
