@@ -44,11 +44,12 @@ router.get('/:role_name/permissions', authenticate, hasRole('admin'), function (
     // Get a roles permissions
 });
 
-
+/* GET role users */
 router.get('/:role_name/users', authenticate, hasRole('admin'), function () {
     // Get Users in a role
 });
 
+/* PUT role users */
 router.put('/:role_name/users', authenticate, hasRole('admin'), function () {
     // Assign multiple users to a role ["ID", "ID", "ID"]
 });
