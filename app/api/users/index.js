@@ -14,7 +14,9 @@ const rolesController = require('./controllers/roles-controller');
 const permissionsController = require('./controllers/permissions-controller');
 const confirmationController = require('./controllers/confirmation-controller');
 const {
-    store
+    store,
+    index,
+    show
 } = require('./controllers/resource-controller');
 
 // Middleware
@@ -46,10 +48,10 @@ router.get('/confirmed', authenticate, confirmationController);
 router.post('/', authenticate, hasRole('admin'), registrationValidator, store);
 
 /* GET users */
-// router.get('/', authenticate, hasRole('admin'), index);
+router.get('/', authenticate, hasRole('admin'), index);
 
 /* GET user */
-// router.get('/:email', authenticate, hasRole('admin'), show);
+router.get('/:email', authenticate, hasRole('admin'), show);
 
 /* PUT user */
 // router.put('/:email', authenticate, hasRole('admin'), userValidator, update);

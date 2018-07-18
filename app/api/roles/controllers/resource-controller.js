@@ -65,7 +65,7 @@ exports.show = function (req, res) {
                 }
             }
         }))
-        .catch(err => res.status(err.statusCode).json({
+        .catch(err => res.status(err.statusCode || 500).json({
             data: { message: err.message }
         }));
 

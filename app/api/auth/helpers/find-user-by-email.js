@@ -13,7 +13,7 @@ function findUserByEmail (email) {
                 }
 
                 if (user === null) {
-                    return reject(new ResponseError('Unauthorized', 401));
+                    return reject(new ResponseError('User Not Found', 404));
                 }
 
                 resolve(user);

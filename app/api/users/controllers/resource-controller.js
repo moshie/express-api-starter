@@ -1,6 +1,7 @@
 "use strict";
 
 const User = require('../../../models/user');
+const getUsers = require('../helpers/get-users');
 const { validationResult } = require('express-validator/check');
 
 exports.store = function (req, res) {
@@ -36,10 +37,42 @@ exports.store = function (req, res) {
 
 exports.index = function (req, res) {
 
+    getUsers()
+        .then(users => res.status(200).json({
+            data: users.map(user => ({
+                first_name: user.first_name,
+                last_name: user.last_name || '',
+                email: user.email
+            }))
+        }))
+        .catch(err => res.status(err.statusCode || 500).json({
+            data: { message: err.message }
+        }));
+    
 }
 
 
 exports.show = function (req, res) {
+
+    if (!req.params.email) {
+        return res.status(400).json({
+            data: { message: 'No Email provided' }
+        });
+    }
+
+    findUserByEmail(req.params.email)
+        .then(user => res.status(200).json({
+            data: {
+                user: {
+                    first_name: user.first_name,
+                    last_name: user.last_name || '',
+                    email: user.email
+                }
+            }
+        }))
+        .catch(err => res.status(err.statusCode || 500).json({
+            data: { message: err.message }
+        }));
 
 }
 
