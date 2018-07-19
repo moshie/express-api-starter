@@ -1,17 +1,17 @@
 "use strict";
 
-const findUserByEmail = require('../../auth/helpers/find-user-by-email');
+const getUserByID = require('../helpers/get-user-by-id');
 const getRolesPermissions = require('../../roles/helpers/get-roles-permissions');
 
 function permissionsController(req, res) {
 
-    if (!res.locals.token && !res.locals.token.email) {
+    if (!res.locals.token && !res.locals.token.user) {
         return res.status(403).json({
             data: { message }
         });
     }
 
-    findUserByEmail(res.locals.token.email)
+    getUserByID(res.locals.token.user)
         .then(user => getRolesPermissions(user.roles))
         .then(permissions => res.status(200).json({
             data: {

@@ -1,6 +1,7 @@
 "use strict";
 
 const getRolesPermissions = require('../helpers/get-roles-permissions');
+const getUserByID = require('../../users/helpers/get-user-by-id');
 
 function hasPermission(permission) {
     return function (req, res, next) {
@@ -15,8 +16,8 @@ function hasPermission(permission) {
             return Forbidden();
         }
 
-        // TODO: Get User by id 
-        getRolesPermissions(res.locals.token.roles)
+        getUserByID(res.locals.token.user)
+            .then(user => getRolesPermissions(user.roles))
             .then(permissions => {
                 if (permissions.indexOf(permission) === -1) {
                     return Forbidden();

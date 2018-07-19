@@ -1,6 +1,6 @@
 "use strict";
 
-const findUserByEmail = require('../../auth/helpers/find-user-by-email');
+const getUserByID = require('../../users/helpers/get-user-by-id');
 
 function rolesController(req, res) {
 
@@ -10,9 +10,7 @@ function rolesController(req, res) {
         });
     }
 
-    // TODO: Get User by ID
-
-    findUserByEmail(res.locals.token.email)
+    getUserByID(res.locals.token.user)
         .then(user => res.status(200).json({
             data: {
                 roles: user.roles.map(role => ({

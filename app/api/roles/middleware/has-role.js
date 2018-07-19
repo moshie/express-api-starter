@@ -11,18 +11,19 @@ function hasRole(role) {
             });
         }
 
-        if (!res.locals.token && !res.locals.token.roles) {
+        if (!res.locals.token && !res.locals.token.user) {
             return forbidden();
         }
 
-        const user = res.locals.token.user;
+        getUserByID(res.locals.token.user)
+            .then(user => {
+                if (!hasRoles(user.roles, typeof role === 'string' ? [role] : role)) {
+                    return forbidden();
+                }
 
-        // TODO: Get User by id pass roles into hasRoles
-        if (!hasRoles(roles, typeof role === 'string' ? [role] : role)) {
-            return forbidden();
-        }
+                next();
+            });
 
-        next();
     }
 }
 

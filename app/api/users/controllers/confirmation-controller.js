@@ -1,6 +1,6 @@
 "use strict";
 
-const findUserByEmail = require('../../auth/helpers/find-user-by-email');
+const getUserByID = require('../helpers/get-user-by-id');
 
 function confirmationController(req, res) {
 
@@ -10,9 +10,7 @@ function confirmationController(req, res) {
         });
     }
 
-    // TODO: Get user by ID
-
-    findUserByEmail(res.locals.token.email)
+    getUserByID(res.locals.token.user)
         .then(user => res.status(200).json({
             data: {
                 confirmed: user.confirmed
