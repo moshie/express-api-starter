@@ -19,6 +19,8 @@ const {
 } = require('./controllers/resource-controller');
 const rolesPermissionsController = require('./controllers/roles-permissions-controller');
 const usersRolesController = require('./controllers/users-roles-controller');
+const assignRoleController = require('./controllers/assign-role-controller');
+const revokeRoleController = require('./controllers/revoke-role-controller');
 
 // Middleware
 //
@@ -48,13 +50,9 @@ router.get('/:role_name/permissions', authenticate, hasRole('admin'), rolesPermi
 router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController);
 
 /* PUT role user */
-router.put('/:role_name/users/:email', authenticate, hasRole('admin'), function () {
-    // Assign a role to a user
-});
+router.put('/:role_name/users/:email', authenticate, hasRole('admin'), assignRoleController);
 
 /* DELETE role user */
-router.delete('/:role_name/users/:email', authenticate, hasRole('admin'), function () {
-    // Revoke a role from a user
-});
+router.delete('/:role_name/users/:email', authenticate, hasRole('admin'), revokeRoleController);
 
 module.exports = router;

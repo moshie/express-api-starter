@@ -1,6 +1,7 @@
 "use strict";
 
 const hasRoles = require('../helpers/has-roles');
+const getUserByID = require('../../users/helpers/get-user-by-id');
 
 function hasRole(role) {
     return function (req, res, next) {
@@ -22,7 +23,10 @@ function hasRole(role) {
                 }
 
                 next();
-            });
+            })
+            .catch(err => res.status(500).json({
+                data: { message: err.message }
+            }));
 
     }
 }
