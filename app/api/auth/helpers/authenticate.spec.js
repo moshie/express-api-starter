@@ -3,18 +3,22 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const expect = chai.expect;
+chai.should();
 chai.use(chaiAsPromised);
 
 const authenticate = require('./authenticate');
+const ResponseError = require('../../../error-handlers/response-error');
 
 describe('#authenticate', function () {
 
     it('should return a promise', function () {
-        expect(authenticate()).to.be.a('promise');
+        var auth = authenticate();
+        auth.should.be.a('promise');
     })
 
-    it('should resolve an Unauthorized Error if no email or password is provided');
+    it('should resolve a 404 Error if no email or password is provided', function () {
+        return authenticate().should.be.rejectedWith(ResponseError);
+    });
 
     it('resolves with a token');
 
