@@ -5,11 +5,17 @@ const router = express.Router();
 
 // Validator
 //
-
+const permissionValidator = require('./validators/permission-validator');
 
 // Controllers
 //
-
+const {
+    store,
+    index,
+    show,
+    update,
+    remove
+} = require('./controllers/resource-controller');
 
 // Middleware
 //
@@ -19,22 +25,22 @@ const hasRole = require('../roles/middleware/has-role');
 
 
 /* POST permission */
-//router.post('/', authenticate, hasRole('admin'), permissionValidator, store);
+router.post('/', authenticate, hasRole('admin'), permissionValidator, store);
 
 /* GET permissions */
-//router.get('/', authenticate, hasRole('admin'), index);
+router.get('/', authenticate, hasRole('admin'), index);
 
 /* GET permission */
-//router.get('/:name', authenticate, hasRole('admin'), show);
+router.get('/:permission_name', authenticate, hasRole('admin'), show);
 
 /* PUT permission */
-//router.put('/:name', authenticate, hasRole('admin'), permissionValidator, update);
+router.put('/:permission_name', authenticate, hasRole('admin'), permissionValidator, update);
 
 /* DELETE permission */
-//router.delete('/:name', authenticate, hasRole('admin'), remove);
+router.delete('/:permission_name', authenticate, hasRole('admin'), remove);
 
 /* PUT permissions role */
-router.put('/:name/roles', authenticate, hasRole('admin'), function () { // PUT or POST?
+router.put('/:permission_name/roles', authenticate, hasRole('admin'), function () { // PUT or POST?
     // Assign multiple permissions to a role
 });
 
