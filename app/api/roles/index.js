@@ -50,9 +50,9 @@ router.get('/:role_name/permissions', authenticate, hasRole('admin'), rolesPermi
 router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController);
 
 /* PUT role user */
-router.put('/:role_name/users/:email', authenticate, hasRole('admin'), assignRoleController);
+router.put('/:role_name/users/:user_id', authenticate, hasRole('admin'), assignRoleController);
 
 /* DELETE role user */
-router.delete('/:role_name/users/:email', authenticate, hasRole('admin'), revokeRoleController);
+router.delete('/:role_name/users/:user_id', authenticate, hasRole('admin'), revokeRoleController);
 
 module.exports = router;

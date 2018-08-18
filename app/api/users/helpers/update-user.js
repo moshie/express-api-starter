@@ -2,9 +2,9 @@
 
 const User = require('../../../models/user');
 
-function updateUser(email, updatedUser) {
+function updateUser(id, updatedUser) {
     return new Promise((resolve, reject) => {
-        User.updateOne({ email }, updatedUser, function (err, user) {
+        User.updateOne({ _id: id }, updatedUser, function (err, user) {
             if (err) {
                 return reject(new ResponseError(err.message));
             }

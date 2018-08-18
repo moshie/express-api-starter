@@ -14,11 +14,11 @@ function revokeRoleController(req, res) {
         return badRequest('No Role Name provided');
     }
 
-    if (!req.params.email) {
-        return badRequest('No Email provided');
+    if (!req.params.user_id) {
+        return badRequest('No User ID provided');
     }
 
-    revokeRolefromUsers(req.params.role_name, [req.params.email])
+    revokeRolefromUsers(req.params.role_name, [req.params.user_id])
         .then(user => res.status(200).json({
             data: { message: 'User role removed' }
         }))

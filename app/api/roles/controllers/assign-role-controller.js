@@ -14,11 +14,11 @@ function assignRoleController(req, res) {
         return badRequest('No Role Name provided');
     }
 
-    if (!req.params.email) {
-        return badRequest('No Email provided');
+    if (!req.params.user_id) {
+        return badRequest('No User ID provided');
     }
 
-    saveRoleToUsers(req.params.role_name, [req.params.email])
+    saveRoleToUsers(req.params.role_name, [req.params.user_id])
         .then(user => res.status(200).json({
             data: { message: 'User role updated' }
         }))

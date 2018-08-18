@@ -22,6 +22,8 @@ const confirmationController = require('./controllers/confirmation-controller');
 //
 // const authenticate = require('./middleware/authenticate');
 
+// TODO: Middleware checking for bearer token if the user is already authenticated return unauthorised
+
 /* POST Login */
 router.post('/login', loginValidator, loginController);
 
