@@ -20,13 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/auth', auth);
+app.use('/api/v1/auth', auth);
 
-app.use('/roles', roles);
+app.use('/api/v1/roles', roles);
 
-app.use('/permissions', permissions);
+app.use('/api/v1/permissions', permissions);
 
-app.use('/users', users);
+app.use('/api/v1/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
