@@ -30,11 +30,3 @@ exports.getUsersRoles = function (req, res) {
     // 
 }
 
-exports.assignRoleToUser = function (req, res) {
-
-}
-
-exports.revokeRoleFromUser = function (req, res) {
-
-}
-

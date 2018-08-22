@@ -4,12 +4,14 @@ const express = require('express');
 const router = express.Router();
 
 const { store, index, show, update, remove } = require('./controllers/resource-controller');
-const { assignMultiple, assignSingular } = require('./controllers/assignment-controller');
-const { revokeMultiple, revokeSingular } = require('./controllers/revoke-controller');
+const { assignMultiple, assignSingular } = require('./controllers/user-assignment-controller');
+const { revokeMultiple, revokeSingular } = require('./controllers/user-revoke-controller');
 
 const auth = require('../auth/middleware/authenticate');
+// const guestMiddleware = require('../auth/middleware/guest');
 // const hasPermission = require('../permissions/middleware/has-permission');
 const hasRole = require('./middleware/has-role');
+
 
 /**
  * Name: Create a role

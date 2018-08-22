@@ -4,7 +4,10 @@ const express = require('express');
 const router = express.Router();
 
 const { store, index, show, update, remove } = require('./controllers/resource-controller');
-const { getAuthenticatedUsersRoles, getUsersRoles, assignRoleToUser, revokeRoleFromUser } = require('./controllers/roles-controller');
+const { assignSingular, assignMultiple } = require('./controllers/role-assignment-controller');
+const { revokeSingular, revokeMultiple } = require('./controllers/role-revoke-controller');
+
+const { getAuthenticatedUsersRoles, getUsersRoles } = require('./controllers/roles-controller');
 const { getAuthenticatedUsersPermissions, getUsersPermissions } = require('./controllers/permissions-controller');
 const { getAuthenticatedUsersConfirmation, getUsersConfirmation } = require('./controllers/confirmation-controller');
 
@@ -113,13 +116,31 @@ router.delete('/:user_id', auth, hasRole('admin'), remove);
 router.get('/:user_id/roles', auth, hasRole('admin'), getUsersRoles); // TODO
 
 /**
- * Name: Assign a role
+ * Name: Assign user to roles
  * Method: PUT
  * Auth: true
  * Role: admin
- * Description: Assign a role to a user
+ * Description: Assign a user to multiple roles
  */
-router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignRoleToUser); // TODO
+router.put('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple); // TODO
+
+/**
+ * Name: Assign user to role
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a user to a role
+ */
+router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignSingular); // TODO
+
+/**
+ * Name: Revoke users from roles
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a users from multiple roles
+ */
+router.delete('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple); // TODO
 
 /**
  * Name: Revoke a role
@@ -128,7 +149,7 @@ router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignRoleToUse
  * Role: admin
  * Description: Revoke a role from a user
  */
-router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeRoleFromUser); // TODO
+router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeSingular); // TODO
 
 /**
  * Name: User's permissions
