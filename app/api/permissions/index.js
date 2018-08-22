@@ -82,7 +82,7 @@ router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignS
  * Role: admin
  * Description: Revoke a permission from multiple roles
  */
-router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple); // TODO
+router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple);
 
 /**
  * Name: Revoke permission from role
@@ -91,6 +91,6 @@ router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./vali
  * Role: admin
  * Description: Revoke a permission from a role
  */
-router.delete('/:permission_name/roles/:role_name', auth, hasRole('admin'), revokeSingular); // TODO
+router.delete('/:permission_name/roles/:role_name', auth, hasRole('admin'), revokeSingular);
 
 module.exports = router;
