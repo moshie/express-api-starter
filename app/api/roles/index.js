@@ -3,56 +3,102 @@
 const express = require('express');
 const router = express.Router();
 
-// Validator
-//
-const roleValidator = require('./validators/role-validator');
-const usersRoleValidator = require('./validators/users-role-validator');
+const { store, index, show, update, remove } = require('./controllers/resource-controller');
+const { assignMultiple, assignSingular } = require('./controllers/assignment-controller');
+const { revokeMultiple, revokeSingular } = require('./controllers/revoke-controller');
 
-// Controllers
-//
-const {
-    store,
-    index,
-    show,
-    update,
-    remove
-} = require('./controllers/resource-controller');
-const rolesPermissionsController = require('./controllers/roles-permissions-controller');
-const usersRolesController = require('./controllers/users-roles-controller');
-const assignRoleController = require('./controllers/assign-role-controller');
-const revokeRoleController = require('./controllers/revoke-role-controller');
-
-// Middleware
-//
-const authenticate = require('../auth/middleware/authenticate');
+const auth = require('../auth/middleware/authenticate');
 // const hasPermission = require('../permissions/middleware/has-permission');
 const hasRole = require('./middleware/has-role');
 
-/* POST role */
-router.post('/', authenticate, hasRole('admin'), roleValidator, store);
+/**
+ * Name: Create a role
+ * Method: POST
+ * Auth: true
+ * Role: admin
+ * Description: Create a new role
+ */
+router.post('/', auth, hasRole('admin'), require('./validators/role-validator'), store);
 
-/* GET roles */
-router.get('/', authenticate, hasRole('admin'), index);
+/**
+ * Name: Get roles
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get all roles
+ */
+router.get('/', auth, hasRole('admin'), index);
 
-/* GET role */
-router.get('/:role_name', authenticate, hasRole('admin'), show);
+/**
+ * Name: Get a role
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get a particular role
+ */
+router.get('/:role_name', auth, hasRole('admin'), show);
 
-/* PUT role */
-router.put('/:role_name', authenticate, hasRole('admin'), roleValidator, update);
+/**
+ * Name: Update a role
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Update a particular role
+ */
+router.put('/:role_name', auth, hasRole('admin'), require('./validators/role-validator'), update);
 
-/* DELETE role */
-router.delete('/:role_name', authenticate, hasRole('admin'), remove);
+/**
+ * Name: Remove a role
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Remove a particular role
+ */
+router.delete('/:role_name', auth, hasRole('admin'), remove);
 
-/* GET role permissions */
-router.get('/:role_name/permissions', authenticate, hasRole('admin'), rolesPermissionsController);
+/**
+ * Name: Role permissions
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get permissions on a role
+ */
+router.get('/:role_name/permissions', auth, hasRole('admin'), require('./controllers/permissions-controller'));
 
-/* PUT role users */
-router.put('/:role_name/users', authenticate, hasRole('admin'), usersRoleValidator, usersRolesController);
+/**
+ * Name: Assign role to users
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a role to multiple users
+ */
+router.put('/:role_name/users', auth, hasRole('admin'), require('./validators/users-validator'), assignMultiple);
 
-/* PUT role user */
-router.put('/:role_name/users/:user_id', authenticate, hasRole('admin'), assignRoleController);
+/**
+ * Name: Assign role to user
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a role to a user
+ */
+router.put('/:role_name/users/:user_id', auth, hasRole('admin'), assignSingular);
 
-/* DELETE role user */
-router.delete('/:role_name/users/:user_id', authenticate, hasRole('admin'), revokeRoleController);
+/**
+ * Name: Revoke role from users
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a role from multiple users
+ */
+router.delete('/:role_name/users', auth, hasRole('admin'), require('./validators/users-validator'), revokeMultiple);
+
+/**
+ * Name: Revoke role from user
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a role from a user
+ */
+router.delete('/:role_name/users/:user_id', auth, hasRole('admin'), revokeSingular);
 
 module.exports = router;

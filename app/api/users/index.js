@@ -3,88 +3,149 @@
 const express = require('express');
 const router = express.Router();
 
-// Validator
-//
-const registrationValidator = require('../auth/validators/registration-validator');
-const updateUserValidator = require('./validators/update-user-validator');
+const { store, index, show, update, remove } = require('./controllers/resource-controller');
+const { getAuthenticatedUsersRoles, getUsersRoles, assignRoleToUser, revokeRoleFromUser } = require('./controllers/roles-controller');
+const { getAuthenticatedUsersPermissions, getUsersPermissions } = require('./controllers/permissions-controller');
+const { getAuthenticatedUsersConfirmation, getUsersConfirmation } = require('./controllers/confirmation-controller');
 
-// Controllers
-//
-const meController = require('./controllers/me-controller');
-const rolesController = require('./controllers/roles-controller');
-const permissionsController = require('./controllers/permissions-controller');
-const confirmationController = require('./controllers/confirmation-controller');
-const {
-    store,
-    index,
-    show,
-    update,
-    remove
-} = require('./controllers/resource-controller');
-
-// Middleware
-//
-const authenticate = require('../auth/middleware/authenticate');
+const auth = require('../auth/middleware/authenticate');
+// const guestMiddleware = require('../auth/middleware/guest');
 // const hasPermission = require('../permissions/middleware/has-permission');
 const hasRole = require('../roles/middleware/has-role');
 
+/**
+ * Name: Me
+ * Method: GET
+ * Auth: true
+ * Role: 
+ * Description: Authenticated user information
+ */
+router.get('/me', auth, require('./controllers/me-controller'));
 
-// Authenticated user endpoints
-//
+/**
+ * Name: User's roles
+ * Method: GET
+ * Auth: true
+ * Role: 
+ * Description: Authenticated user's roles
+ */
+router.get('/roles', auth, getAuthenticatedUsersRoles);
 
-/* GET me */
-router.get('/me', authenticate, meController);
+/**
+ * Name: User's permissions
+ * Method: GET
+ * Auth: true
+ * Role: 
+ * Description: Authenticated user's permissions
+ */
+router.get('/permissions', auth, getAuthenticatedUsersPermissions);
 
-/* GET user roles */
-router.get('/roles', authenticate, rolesController);
+/**
+ * Name: Email confirmation check
+ * Method: GET
+ * Auth: true
+ * Role: 
+ * Description: Check the authenticated user's email is confirmed
+ */
+router.get('/confirmed', auth, getAuthenticatedUsersConfirmation);
 
-/* GET user permissions */
-router.get('/permissions', authenticate, permissionsController);
+/**
+ * Name: Update user
+ * Method: PUT
+ * Auth: true
+ * Role: 
+ * Description: Update authenticated user's information
+ */
+router.put('/', auth, require('./validators/update-user-validator'), require('./controllers/update-profile-controller'));
 
-/* GET user confirmed */
-router.get('/confirmed', authenticate, confirmationController);
+/**
+ * Name: Create new user
+ * Method: POST
+ * Auth: true
+ * Role: admin
+ * Description: Create a new user account
+ */
+router.post('/', auth, hasRole('admin'), require('../auth/validators/registration-validator'), store);
 
-// Administrator Endpoints
-//
+/**
+ * Name: Get users
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get all user accounts
+ */
+router.get('/', auth, hasRole('admin'), index);
 
-/* POST user */
-router.post('/', authenticate, hasRole('admin'), registrationValidator, store);
+/**
+ * Name: Get a user
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get a particular user account
+ */
+router.get('/:user_id', auth, hasRole('admin'), show);
 
-/* GET users */
-router.get('/', authenticate, hasRole('admin'), index);
+/**
+ * Name: Update a user
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Update a particular user account
+ */
+router.put('/:user_id', auth, hasRole('admin'), updateUserValidator, update);
 
-/* GET user */
-router.get('/:user_id', authenticate, hasRole('admin'), show);
+/**
+ * Name: Delete a user
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Remove a particular user account
+ */
+router.delete('/:user_id', auth, hasRole('admin'), remove);
 
-/* PUT user */
-router.put('/:user_id', authenticate, hasRole('admin'), updateUserValidator, update);
+/**
+ * Name: Get user roles
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get a user's roles
+ */
+router.get('/:user_id/roles', auth, hasRole('admin'), getUsersRoles); // TODO
 
-/* DELETE user */
-router.delete('/:user_id', authenticate, hasRole('admin'), remove);
+/**
+ * Name: Assign a role
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a role to a user
+ */
+router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignRoleToUser); // TODO
 
-/* GET user roles */
-router.get('/:user_id/roles', authenticate, hasRole('admin'), function () {
-    // Get a particular users roles
-});
+/**
+ * Name: Revoke a role
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a role from a user
+ */
+router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeRoleFromUser); // TODO
 
-/* PUT user role */
-router.put('/:user_id/roles/:role_name', authenticate, hasRole('admin'), function () {
-    // Assign a user a role
-});
+/**
+ * Name: User's permissions
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get a user's permissions
+ */
+router.get('/:user_id/permissions', auth, hasRole('admin'), getUsersPermissions); // TODO
 
-/* DELETE user role */
-router.delete('/:user_id/roles/:role_name', authenticate, hasRole('admin'), function () {
-    // Revoke a user a role
-});
-
-/* GET user permissions */
-router.get('/:user_id/permissions', authenticate, hasRole('admin'), function () {
-    // Get a users current permissions
-});
-
-/* GET user confirmed */
-router.get('/:user_id/confirmed', authenticate, hasRole('admin'), function () {
-    // Checks if user is confirmed or not
-});
+/**
+ * Name: Email confirmation check
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Check a user's email is confirmed
+ */
+router.get('/:user_id/confirmed', auth, hasRole('admin'), getUsersConfirmation); // TODO
 
 module.exports = router;

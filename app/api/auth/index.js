@@ -3,40 +3,51 @@
 const express = require('express');
 const router = express.Router();
 
-// Validator
-//
-const loginValidator = require('./validators/login-validator.js');
-const registrationValidator = require('./validators/registration-validator.js');
-const forgottenValidator = require('./validators/forgotten-password-validator');
-const resetValidator = require('./validators/reset-password-validator');
+const guest = require('./middleware/guest');
 
-// Controllers
-//
-const loginController = require('./controllers/login-controller.js');
-const registrationController = require('./controllers/registration-controller.js');
-const forgottenController = require('./controllers/forgotten-password-controller');
-const resetController = require('./controllers/reset-password-controller');
-const confirmationController = require('./controllers/confirmation-controller');
+/**
+ * Name: Login
+ * Method: POST
+ * Auth: false
+ * Role: 
+ * Description: Login to access restricted endpoints
+ */
+router.post('/login', guest, require('./validators/login-validator.js'), require('./controllers/login-controller.js'));
 
-// Middleware
-//
-// const authenticate = require('./middleware/authenticate');
+/**
+ * Name: Register
+ * Method: POST
+ * Auth: false
+ * Role: 
+ * Description: Register with user information
+ */
+router.post('/register', guest, require('./validators/registration-validator.js'), require('./controllers/registration-controller.js'));
 
-// TODO: Middleware checking for bearer token if the user is already authenticated return unauthorised
+/**
+ * Name: Forgotten Password
+ * Method: POST
+ * Auth: false
+ * Role: 
+ * Description: Send forgotten email
+ */
+router.post('/forgot', guest, require('./validators/forgotten-password-validator'), require('./controllers/forgotten-password-controller'));
 
-/* POST Login */
-router.post('/login', loginValidator, loginController);
+/**
+ * Name: Reset
+ * Method: POST
+ * Auth: false
+ * Role: 
+ * Description: Reset users password
+ */
+router.post('/reset', guest, require('./validators/reset-password-validator'), require('./controllers/reset-password-controller'));
 
-/* POST Register */
-router.post('/register', registrationValidator, registrationController);
-
-/* POST Forgot */
-router.post('/forgot', forgottenValidator, forgottenController);
-
-/* POST Reset */
-router.post('/reset', resetValidator, resetController);
-
-/* GET Confirmation */
-router.get('/confirm/:token', confirmationController);
+/**
+ * Name: Email Confirmation
+ * Method: GET
+ * Auth: false
+ * Role: 
+ * Description: Confirm email is genuine
+ */
+router.get('/confirm/:token', require('./controllers/confirmation-controller'));
 
 module.exports = router;

@@ -3,55 +3,93 @@
 const express = require('express');
 const router = express.Router();
 
-// Validator
-//
-const permissionValidator = require('./validators/permission-validator');
+const { store, index, show, update, remove } = require('./controllers/resource-controller');
+const { assignMultiple, assignSingular } = require('./controllers/assignment-controller');
+const { revokeMultiple, revokeSingular } = require('./controllers/revoke-controller');
 
-// Controllers
-//
-const {
-    store,
-    index,
-    show,
-    update,
-    remove
-} = require('./controllers/resource-controller');
-
-// Middleware
-//
-const authenticate = require('../auth/middleware/authenticate');
+const auth = require('../auth/middleware/authenticate');
 // const hasPermission = require('./middleware/has-permission');
 const hasRole = require('../roles/middleware/has-role');
 
+/**
+ * Name: Create a permission
+ * Method: POST
+ * Auth: true
+ * Role: admin
+ * Description: Create a new permission
+ */
+router.post('/', auth, hasRole('admin'), require('./validators/permission-validator'), store);
 
-/* POST permission */
-router.post('/', authenticate, hasRole('admin'), permissionValidator, store);
+/**
+ * Name: Get permissions
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get all permissions
+ */
+router.get('/', auth, hasRole('admin'), index);
 
-/* GET permissions */
-router.get('/', authenticate, hasRole('admin'), index);
+/**
+ * Name: Get a permission
+ * Method: GET
+ * Auth: true
+ * Role: admin
+ * Description: Get a particular permission
+ */
+router.get('/:permission_name', auth, hasRole('admin'), show);
 
-/* GET permission */
-router.get('/:permission_name', authenticate, hasRole('admin'), show);
+/**
+ * Name: Update a permission
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Update a particular permission
+ */
+router.put('/:permission_name', auth, hasRole('admin'), require('./validators/permission-validator'), update);
 
-/* PUT permission */
-router.put('/:permission_name', authenticate, hasRole('admin'), permissionValidator, update);
+/**
+ * Name: Remove a permission
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Remove a particular permission
+ */
+router.delete('/:permission_name', auth, hasRole('admin'), remove);
 
-/* DELETE permission */
-router.delete('/:permission_name', authenticate, hasRole('admin'), remove);
+/**
+ * Name: Assign permission to roles
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a permission to multiple roles
+ */
+router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple); // TODO
 
-/* PUT permissions role */
-router.put('/:permission_name/roles', authenticate, hasRole('admin'), function () { // PUT or POST?
-    // Assign multiple permissions to a role
-});
+/**
+ * Name: Assign permission to a role
+ * Method: PUT
+ * Auth: true
+ * Role: admin
+ * Description: Assign a permission to a role
+ */
+router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignSingular); // TODO
 
-/* PUT permission role */
-router.put('/:name/roles/:role_name', authenticate, hasRole('admin'), function () {
-    // Assign a permission to a role
-});
+/**
+ * Name: Revoke permission from roles
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a permission from multiple roles
+ */
+router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple); // TODO
 
-/* DELETE permission role */
-router.delete('/:name/roles/:role_name', authenticate, hasRole('admin'), function () {
-    // Revoke a permission from a role
-});
+/**
+ * Name: Revoke permission from role
+ * Method: DELETE
+ * Auth: true
+ * Role: admin
+ * Description: Revoke a permission from a role
+ */
+router.delete('/:permission_name/roles/:role_name', auth, hasRole('admin'), revokeSingular); // TODO
 
 module.exports = router;

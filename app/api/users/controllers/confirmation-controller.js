@@ -2,7 +2,7 @@
 
 const getUserByID = require('../helpers/get-user-by-id');
 
-function confirmationController(req, res) {
+exports.getAuthenticatedUsersConfirmation = function (req, res) {
 
     if (!res.locals.token && !res.locals.token.user) {
         return res.status(403).json({
@@ -22,4 +22,6 @@ function confirmationController(req, res) {
 
 }
 
-module.exports = confirmationController
+exports.getUsersConfirmation = function (req, res) {
+
+}

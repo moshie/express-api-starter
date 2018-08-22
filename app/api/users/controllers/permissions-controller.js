@@ -3,7 +3,7 @@
 const getUserByID = require('../helpers/get-user-by-id');
 const getRolesPermissions = require('../../roles/helpers/get-roles-permissions');
 
-function permissionsController(req, res) {
+exports.getAuthenticatedUsersPermissions = function (req, res) {
 
     if (!res.locals.token && !res.locals.token.user) {
         return res.status(403).json({
@@ -27,4 +27,6 @@ function permissionsController(req, res) {
         }));
 }
 
-module.exports = permissionsController;
+exports.getUsersPermissions = function (req, res) {
+    
+}

@@ -2,7 +2,7 @@
 
 const getUserByID = require('../../users/helpers/get-user-by-id');
 
-function rolesController(req, res) {
+exports.getAuthenticatedUsersRoles = function (req, res) {
 
     if (!res.locals.token && !res.locals.token.user) {
         return res.status(403).json({
@@ -26,4 +26,15 @@ function rolesController(req, res) {
 
 }
 
-module.exports = rolesController
+exports.getUsersRoles = function (req, res) {
+    // 
+}
+
+exports.assignRoleToUser = function (req, res) {
+
+}
+
+exports.revokeRoleFromUser = function (req, res) {
+
+}
+
