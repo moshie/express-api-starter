@@ -3,7 +3,7 @@
 const ResponseError = require('../../../error-handlers/response-error');
 const hasPermissions = require('./has-permissions');
 
-function updateRolesPermission(permission, role) {
+function addPermissionToRole(permission, role) {
     return new Promise((resolve, reject) => {
 
         if (hasPermissions(role.permissions, [permission.name])) {
@@ -23,4 +23,4 @@ function updateRolesPermission(permission, role) {
     })
 }
 
-module.exports = updateRolesPermission;
+module.exports = addPermissionToRole;

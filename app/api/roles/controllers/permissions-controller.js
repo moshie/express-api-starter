@@ -1,8 +1,8 @@
 "use strict";
 
-const getRolePermissions = require('../helpers/get-role-permissions');
+const getRoleByName = require('../helpers/get-role-by-name');
 
-function rolesPermissionsController(req, res) {
+function permissionsController(req, res) {
 
     if (!req.params.role_name) {
         return res.status(400).json({
@@ -10,10 +10,11 @@ function rolesPermissionsController(req, res) {
         });
     }
 
-    return getRolePermissions(req.params.role_name)
-        .then(permissions => res.status(200).json({
-            data: { 
-                permissions: permissions.map(permission => ({
+    return getRoleByName(req.params.role_name)
+        .then(role => res.status(200).json({
+            data: {
+                permissions: role.permissions.map(permission => ({
+                    display_name: permission.display_name,
                     name: permission.name,
                     description: permission.description
                 }))
@@ -25,4 +26,4 @@ function rolesPermissionsController(req, res) {
 
 }
 
-module.exports = rolesPermissionsController;
+module.exports = permissionsController;

@@ -64,7 +64,7 @@ router.delete('/:permission_name', auth, hasRole('admin'), remove);
  * Role: admin
  * Description: Assign a permission to multiple roles
  */
-router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple); // TODO
+router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple);
 
 /**
  * Name: Assign permission to a role
@@ -73,7 +73,7 @@ router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validat
  * Role: admin
  * Description: Assign a permission to a role
  */
-router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignSingular); // TODO
+router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignSingular);
 
 /**
  * Name: Revoke permission from roles

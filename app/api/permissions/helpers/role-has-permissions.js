@@ -1,6 +1,6 @@
 "use strict";
 
-function hasPermissions(rolesPermissions, permissions) {
+function roleHasPermissions(rolesPermissions, permissions) {
     var hasPermission = false;
 
     rolesPermissions = rolesPermissions.map(permission => permission.name);
@@ -15,4 +15,4 @@ function hasPermissions(rolesPermissions, permissions) {
     return hasPermission;
 }
 
-module.exports = hasPermissions;
+module.exports = roleHasPermissions;
