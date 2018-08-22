@@ -12,7 +12,7 @@ function forgottenController(req, res) {
         return res.status(422).json({ errors: errors.mapped() });
     }
 
-    storePasswordResetToken(req.body.email)
+    return storePasswordResetToken(req.body.email)
         .then(doc => mailer().sendMail({
             from: process.env.WEBSITE_EMAIL,
             to: req.body.email,

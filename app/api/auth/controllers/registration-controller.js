@@ -18,7 +18,7 @@ function registrationController(req, res) {
         password: req.body.password
     });
 
-    user.save()
+    return user.save()
         .then(user => mailer().sendMail({
             from: process.env.WEBSITE_EMAIL,
             to: user.email,

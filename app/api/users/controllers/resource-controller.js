@@ -21,7 +21,7 @@ exports.store = function (req, res) {
         password: req.body.password
     });
 
-    user.save()
+    return user.save()
         .then(user => mailer().sendMail({
             from: process.env.WEBSITE_EMAIL,
             to: user.email,
@@ -39,7 +39,7 @@ exports.store = function (req, res) {
 
 exports.index = function (req, res) {
 
-    getUsers()
+    return getUsers()
         .then(users => res.status(200).json({
             data: users.map(user => ({
                 id: user.id,
@@ -63,7 +63,7 @@ exports.show = function (req, res) {
         });
     }
 
-    findUserById(req.params.user_id)
+    return findUserById(req.params.user_id)
         .then(user => res.status(200).json({
             data: {
                 user: {
@@ -88,7 +88,7 @@ exports.update = function (req, res) {
         });
     }
 
-    updateUser(req.params.user_id, {
+    return updateUser(req.params.user_id, {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email
@@ -117,7 +117,7 @@ exports.remove = function (req, res) {
         });
     }
 
-    User.deleteOne({ _id: req.params.user_id })
+    return User.deleteOne({ _id: req.params.user_id })
         .then(() => res.status(200).json({
             data: { message: 'User removed successfully' }
         }))

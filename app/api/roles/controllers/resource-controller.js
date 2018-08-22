@@ -19,7 +19,7 @@ exports.store = function (req, res) {
         description: req.body.description || ''
     });
 
-    role.save()
+    return role.save()
         .then(() => res.status(201).json({
             data: { message: 'Role Created' }
         }))
@@ -31,7 +31,7 @@ exports.store = function (req, res) {
 
 exports.index = function (req, res) {
 
-    Role.find({})
+    return Role.find({})
         .then(roles => res.status(200).json({
             data: {
                 roles: roles.map(role => ({ 
@@ -55,7 +55,7 @@ exports.show = function (req, res) {
         });
     }
 
-    getRoleByName(req.params.role_name)
+    return getRoleByName(req.params.role_name)
         .then(role => res.status(200).json({
             data: {
                 role: {
@@ -79,7 +79,7 @@ exports.update = function (req, res) {
         });
     }
 
-    updateRole(req.params.role_name, {
+    return updateRole(req.params.role_name, {
         display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description
@@ -106,7 +106,7 @@ exports.remove = function (req, res) {
         });
     }
 
-    Role.deleteOne({ name: req.params.role_name })
+    return Role.deleteOne({ name: req.params.role_name })
         .then(() => res.status(200).json({
             data: { message: 'Role removed successfully' }
         }))

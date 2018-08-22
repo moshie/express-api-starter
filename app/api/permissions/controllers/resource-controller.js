@@ -20,7 +20,7 @@ exports.store = function (req, res) {
         description: req.body.description || ''
     });
 
-    permission.save()
+    return permission.save()
         .then(() => res.status(201).json({
             data: { message: 'Permission Created' }
         }))
@@ -32,7 +32,7 @@ exports.store = function (req, res) {
 
 exports.index = function (req, res) {
 
-    Permission.find({})
+    return Permission.find({})
         .then(permissions => res.status(200).json({
             data: {
                 permissions: permissions.map(permission => ({ 
@@ -56,7 +56,7 @@ exports.show = function (req, res) {
         });
     }
 
-    getPermissionByName(req.params.permission_name)
+    return getPermissionByName(req.params.permission_name)
         .then(permission => res.status(200).json({
             data: {
                 permission: {
@@ -80,7 +80,7 @@ exports.update = function (req, res) {
         });
     }
 
-    updatePermission(req.params.permission_name, {
+    return updatePermission(req.params.permission_name, {
         display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description
@@ -107,7 +107,7 @@ exports.remove = function (req, res) {
         });
     }
 
-    Permission.deleteOne({ name: req.params.permission_name })
+    return Permission.deleteOne({ name: req.params.permission_name })
         .then(() => res.status(200).json({
             data: { message: 'Permission removed successfully' }
         }))

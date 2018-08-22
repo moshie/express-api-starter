@@ -17,7 +17,7 @@ exports.revokeMultiple = function (req, res) {
         });
     }
 
-    revokeRolefromUsers(req.params.role_name, req.body.users)
+    return revokeRolefromUsers(req.params.role_name, req.body.users)
         .then(user => res.status(200).json({
             data: { message: 'Users updated' }
         }))
@@ -43,7 +43,7 @@ exports.revokeSingular = function (req, res) {
         return badRequest('No User ID provided');
     }
 
-    revokeRolefromUsers(req.params.role_name, [req.params.user_id])
+    return revokeRolefromUsers(req.params.role_name, [req.params.user_id])
         .then(user => res.status(200).json({
             data: { message: 'User role removed' }
         }))

@@ -10,7 +10,7 @@ function UpdateProfileController(req, res) {
         });
     }
 
-    updateUser(res.locals.token.user, {
+    return updateUser(res.locals.token.user, {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email

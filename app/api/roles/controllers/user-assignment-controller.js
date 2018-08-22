@@ -17,7 +17,7 @@ exports.assignMultiple = function (req, res) {
         });
     }
 
-    saveRoleToUsers(req.params.role_name, req.body.users)
+    return saveRoleToUsers(req.params.role_name, req.body.users)
         .then(user => res.status(200).json({
             data: { message: 'Users updated' }
         }))
@@ -43,7 +43,7 @@ exports.assignSingular = function (req, res) {
         return badRequest('No User ID provided');
     }
 
-    saveRoleToUsers(req.params.role_name, [req.params.user_id])
+    return saveRoleToUsers(req.params.role_name, [req.params.user_id])
         .then(user => res.status(200).json({
             data: { message: 'User role updated' }
         }))

@@ -10,7 +10,7 @@ exports.getAuthenticatedUsersRoles = function (req, res) {
         });
     }
 
-    getUserByID(res.locals.token.user)
+    return getUserByID(res.locals.token.user)
         .then(user => res.status(200).json({
             data: {
                 roles: user.roles.map(role => ({

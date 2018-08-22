@@ -10,7 +10,7 @@ function meController(req, res) {
         });
     }
 
-    getUserByID(res.locals.token.user)
+    return getUserByID(res.locals.token.user)
         .then(user => res.status(200).json({
             data: {
                 user: {

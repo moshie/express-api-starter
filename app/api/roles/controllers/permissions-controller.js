@@ -10,7 +10,7 @@ function rolesPermissionsController(req, res) {
         });
     }
 
-    getRolePermissions(req.params.role_name)
+    return getRolePermissions(req.params.role_name)
         .then(permissions => res.status(200).json({
             data: { 
                 permissions: permissions.map(permission => ({

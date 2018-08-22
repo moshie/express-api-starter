@@ -11,7 +11,7 @@ exports.getAuthenticatedUsersPermissions = function (req, res) {
         });
     }
 
-    getUserByID(res.locals.token.user)
+    return getUserByID(res.locals.token.user)
         .then(user => getRolesPermissions(user.roles))
         .then(permissions => res.status(200).json({
             data: {

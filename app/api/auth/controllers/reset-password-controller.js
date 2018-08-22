@@ -12,7 +12,7 @@ function resetController(req, res) {
         return res.status(422).json({ errors: errors.mapped() });
     }
 
-    resetPassword(req.body.email, req.body.token, req.body.password)
+    return resetPassword(req.body.email, req.body.token, req.body.password)
         .then(user => mailer().sendMail({
             from: process.env.WEBSITE_EMAIL,
             to: user.email,
