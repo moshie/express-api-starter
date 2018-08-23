@@ -5,10 +5,13 @@ const mailer = require('../../../services/mailer-service');
 const { validationResult } = require('express-validator/check');
 
 function registrationController(req, res) {
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({ 
+            errors: errors.array()
+        });
     }
 
     var user = new User({
@@ -19,17 +22,35 @@ function registrationController(req, res) {
     });
 
     return user.save()
-        .then(user => mailer().sendMail({
-            from: process.env.WEBSITE_EMAIL,
-            to: user.email,
-            subject: 'Confirm your Email',
-            html: user.confirmation_token
-        }))
-        .then(() => res.status(201).json({
-            data: { message: 'User Created' }
+        .then(user => {
+            mailer().sendMail({
+                from: process.env.WEBSITE_EMAIL,
+                to: user.email,
+                subject: 'Confirm your Email',
+                html: user.confirmation_token
+            });
+            return user;
+        })
+        .then(user => res.status(201).json({
+            data: {
+                type: 'user',
+                id: user._id,
+                attributes: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    confirmed: user.confirmed,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at
+                }
+            }
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem registering',
+                detail: err.message
+            }]
         }));
 
 }

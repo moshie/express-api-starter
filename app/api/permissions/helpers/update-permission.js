@@ -9,7 +9,7 @@ function updatePermission(name, updatedPermission) {
                 return reject(new ResponseError(err.message));
             }
 
-            if (role === null) {
+            if (permission === null) {
                 return reject(new ResponseError('Permission not found', 404));
             }
 

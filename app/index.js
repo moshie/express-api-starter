@@ -15,6 +15,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(function (req, res, next) {
+
+    var contentType = req.get('Content-Type');
+    if (!contentType && contentType.indexOf('application/vnd.api+json') !== -1) {
+        return res.status(415).json({
+            errors: [{
+                status: '415',
+                title: 'Invalid Content Type',
+                detail: 'Content Type must not include the "application/vnd.api+json" or any media types'
+            }]
+        });
+    }
+
+    res.set('Content-Type', 'application/vnd.api+json');
+
+    next();
+});
+
 app.use('/api/v1/auth', require('./api/auth'));
 app.use('/api/v1/roles', require('./api/roles'));
 app.use('/api/v1/permissions', require('./api/permissions'));

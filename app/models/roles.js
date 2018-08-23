@@ -22,6 +22,11 @@ const rolesSchema = new Schema({
         default: ''
     },
     permissions: [{ type: Schema.Types.ObjectId, ref: 'Permission' }]
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 });
 
 module.exports = mongoose.model('Role', rolesSchema);

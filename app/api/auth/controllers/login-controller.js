@@ -8,15 +8,23 @@ function loginController(req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({ 
+            errors: errors.array() 
+        });
     }
 
     return authenticate(req.body.email, req.body.password)
         .then(token => res.status(200).json({
-            data: { token }
+            data: {
+                token
+            }
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem authenticating',
+                detail: err.message
+            }]
         }));
 
 }

@@ -19,6 +19,11 @@ const permissionsSchema = new mongoose.Schema({
         trim: true,
         default: ''
     }
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 });
 
 module.exports = mongoose.model('Permission', permissionsSchema);

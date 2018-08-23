@@ -11,7 +11,9 @@ exports.store = function (req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({ 
+            errors: errors.array()
+        });
     }
 
     var permission = new Permission({
@@ -21,11 +23,25 @@ exports.store = function (req, res) {
     });
 
     return permission.save()
-        .then(() => res.status(201).json({
-            data: { message: 'Permission Created' }
+        .then(permission => res.status(201).json({
+            data: {
+                type: 'permission',
+                id: permission._id,
+                attributes: {
+                    display_name: permission.display_name,
+                    name: permission.name,
+                    description: permission.description || '',
+                    created_at: permission.created_at,
+                    updated_at: permission.updated_at
+                }
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem while saving the permission',
+                detail: err.message
+            }]
         }));
 
 }
@@ -34,16 +50,24 @@ exports.index = function (req, res) {
 
     return Permission.find({})
         .then(permissions => res.status(200).json({
-            data: {
-                permissions: permissions.map(permission => ({ 
+            data: permissions.map(permission => ({
+                type: 'permission',
+                id: permission._id,
+                attributes: {
                     display_name: permissions.display_name,
                     name: permissions.name,
-                    description: permissions.description
-                })) || []
-            }
+                    description: permissions.description || '',
+                    created_at: permission.created_at,
+                    updated_at: permission.updated_at
+                }
+            })) || []
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem finding permissions',
+                detail: err.message
+            }]
         }));
 
 }
@@ -52,22 +76,34 @@ exports.show = function (req, res) {
 
     if (!req.params.permission_name) {
         return res.status(400).json({
-            data: { message: 'No Permission Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No permission specified',
+                detail: 'Define a permission name to retrieve'
+            }]
         });
     }
 
     return getPermissionByName(req.params.permission_name)
         .then(permission => res.status(200).json({
             data: {
-                permission: {
+                type: 'permission',
+                id: permission._id,
+                attributes: {
                     display_name: permission.display_name,
                     name: permission.name,
-                    description: permission.description
+                    description: permission.description || '',
+                    created_at: permission.created_at,
+                    updated_at: permission.updated_at
                 }
             }
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem finding the permission',
+                detail: err.message
+            }]
         }));
 
 }
@@ -76,7 +112,11 @@ exports.update = function (req, res) {
 
     if (!req.params.permission_name) {
         return res.status(400).json({
-            data: { message: 'No Permission Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No permission specified',
+                detail: 'Define a permission name to update'
+            }]
         });
     }
 
@@ -85,17 +125,25 @@ exports.update = function (req, res) {
         name: req.body.name,
         description: req.body.description
     })
-        .then(role => res.status(200).json({
+        .then(permission => res.status(200).json({
             data: {
-                role: {
-                    display_name: role.display_name,
-                    name: role.name,
-                    description: role.description
+                type: 'permission',
+                id: permission._id,
+                attributes: {
+                    display_name: permission.display_name,
+                    name: permission.name,
+                    description: permission.description || '',
+                    created_at: permission.created_at,
+                    updated_at: permission.updated_at
                 }
             }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem updating the permission',
+                detail: err.message
+            }]
         }));
 
 }
@@ -104,16 +152,26 @@ exports.remove = function (req, res) {
 
     if (!req.params.permission_name) {
         return res.status(400).json({
-            data: { message: 'No Permission Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No permission specified',
+                detail: 'Define a permission name to remove'
+            }]
         });
     }
 
     return Permission.deleteOne({ name: req.params.permission_name })
         .then(() => res.status(200).json({
-            data: { message: 'Permission removed successfully' }
+            meta: {
+                message: 'Permission removed successfully'
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem removing the permission',
+                detail: err.message
+            }]
         }));
 
 }
