@@ -6,11 +6,6 @@ const mongoose = require('mongoose');
 
 require('dotenv').config()
 
-const auth = require('./api/auth');
-const roles = require('./api/roles');
-const permissions = require('./api/permissions');
-const users = require('./api/users');
-
 const app = express();
 
 mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true });
@@ -20,13 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/v1/auth', auth);
-
-app.use('/api/v1/roles', roles);
-
-app.use('/api/v1/permissions', permissions);
-
-app.use('/api/v1/users', users);
+app.use('/api/v1/auth', require('./api/auth'));
+app.use('/api/v1/roles', require('./api/roles'));
+app.use('/api/v1/permissions', require('./api/permissions'));
+app.use('/api/v1/users', require('./api/users'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
