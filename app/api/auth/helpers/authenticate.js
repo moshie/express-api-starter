@@ -1,11 +1,11 @@
 "use strict";
 
 const generateJWT = require('./generate-jwt');
-const findUserByEmail = require('./find-user-by-email');
+const getUserByEmail = require('./get-user-by-email');
 const comparePasswords = require('./compare-passwords');
 
 function authenticate (email, password) {
-    return findUserByEmail(email)
+    return getUserByEmail(email)
         .then(user => comparePasswords(user, password))
         .then(generateJWT);
 }

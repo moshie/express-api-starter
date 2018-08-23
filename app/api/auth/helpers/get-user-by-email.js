@@ -3,7 +3,7 @@
 const User = require('../../../models/user');
 const ResponseError = require('../../../error-handlers/response-error');
 
-function findUserByEmail (email) {
+function getUserByEmail (email) {
     return new Promise((resolve, reject) => {
         User.findOne({ email })
             .populate('roles')
@@ -21,4 +21,4 @@ function findUserByEmail (email) {
     });
 }
 
-module.exports = findUserByEmail;
+module.exports = getUserByEmail;
