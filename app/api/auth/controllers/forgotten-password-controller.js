@@ -22,7 +22,7 @@ function forgottenController(req, res) {
             html: doc.token // TODO
         }))
         .then(info => res.status(200).json({
-            data: {
+            meta: {
                 info,
                 message: 'Forgotten Password E-mail sent successfully'
             }
