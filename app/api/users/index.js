@@ -95,7 +95,7 @@ router.get('/:user_id', auth, hasRole('admin'), show);
  * Role: admin
  * Description: Update a particular user account
  */
-router.put('/:user_id', auth, hasRole('admin'), updateUserValidator, update);
+router.put('/:user_id', auth, hasRole('admin'), require('./validators/update-user-validator'), update);
 
 /**
  * Name: Delete a user

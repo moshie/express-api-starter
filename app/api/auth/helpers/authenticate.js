@@ -1,7 +1,7 @@
 "use strict";
 
 const generateJWT = require('./generate-jwt');
-const getUserByEmail = require('./get-user-by-email');
+const getUserByEmail = require('../../users/helpers/get-user-by-email');
 const comparePasswords = require('./compare-passwords');
 
 function authenticate (email, password) {

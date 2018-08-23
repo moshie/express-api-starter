@@ -9,14 +9,14 @@ function getRolesPermissions(roles) {
     }
 
     var promises = roles.map(role => new Promise((resolve, reject) => {
-        Role.findOne({ name: role })
+        Role.findOne({ name: role.name })
             .populate({ path: 'permissions', select: 'name' })
-            .exec(function (err, role) {
+            .exec(function (err, _role) {
                 if (err) {
                     return reject(err);
                 }
                 
-                resolve(role === null ? [] : role.permissions);
+                resolve(_role === null ? [] : _role.permissions);
             })
     }));
 

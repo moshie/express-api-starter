@@ -2,7 +2,6 @@
 
 const getUserById = require('./get-user-by-id');
 const updateUserRole = require('../../roles/helpers/update-user-role');
-const getUserById = require('./get-user-by-id');
 
 function saveUserToRoles(user_id, roles = []) {
 

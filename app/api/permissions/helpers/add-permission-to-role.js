@@ -1,12 +1,12 @@
 "use strict";
 
 const ResponseError = require('../../../error-handlers/response-error');
-const hasPermissions = require('./has-permissions');
+const roleHasPermissions = require('./role-has-permissions');
 
 function addPermissionToRole(permission, role) {
     return new Promise((resolve, reject) => {
 
-        if (hasPermissions(role.permissions, [permission.name])) {
+        if (roleHasPermissions(role.permissions, [permission.name])) {
             // Role already has that permission
             return resolve(role);
         }

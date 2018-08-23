@@ -1,6 +1,6 @@
 "use strict";
 
-const Permission = require('../../../models/permission');
+const Permission = require('../../../models/permissions');
 const ResponseError = require('../../../error-handlers/response-error');
 
 function getPermissionByName(name) {

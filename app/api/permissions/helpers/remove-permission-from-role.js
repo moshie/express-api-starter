@@ -1,7 +1,7 @@
 "use strict";
 
 const ResponseError = require('../../../error-handlers/response-error');
-const roleHasPermission = require('./role-has-permission');
+const roleHasPermission = require('./role-has-permissions');
 
 function removePermissionFromRole(permission, role) {
     return new Promise((resolve, reject) => {
