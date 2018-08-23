@@ -10,7 +10,9 @@ exports.store = function (req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({
+            errors: errors.array()
+        });
     }
 
     var role = new Role({
@@ -20,11 +22,25 @@ exports.store = function (req, res) {
     });
 
     return role.save()
-        .then(() => res.status(201).json({
-            data: { message: 'Role Created' }
+        .then(role => res.status(201).json({
+            data: {
+                type: 'role',
+                id: role._id,
+                attributes: {
+                    display_name: role.display_name,
+                    name: role.name,
+                    description: role.description || '',
+                    created_at: role.created_at,
+                    updated_at: role.updated_at
+                }
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem saving the role',
+                detail: err.message
+            }]
         }));
 
 }
@@ -33,16 +49,24 @@ exports.index = function (req, res) {
 
     return Role.find({})
         .then(roles => res.status(200).json({
-            data: {
-                roles: roles.map(role => ({ 
+            data: roles.map(role => ({
+                type: 'role',
+                id: role._id,
+                attributes: {
                     display_name: role.display_name,
                     name: role.name,
-                    description: role.description
-                })) || []
-            }
+                    description: role.description || '',
+                    created_at: role.created_at,
+                    updated_at: role.updated_at
+                }
+            })) || []
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem finding roles',
+                detail: err.message
+            }]
         }));
 
 }
@@ -51,22 +75,34 @@ exports.show = function (req, res) {
 
     if (!req.params.role_name) {
         return res.status(400).json({
-            data: { message: 'No Role Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No role specified',
+                detail: 'Define a role name to retrieve'
+            }]
         });
     }
 
     return getRoleByName(req.params.role_name)
         .then(role => res.status(200).json({
             data: {
-                role: {
+                type: 'role',
+                id: role._id,
+                attributes: {
                     display_name: role.display_name,
                     name: role.name,
-                    description: role.description
+                    description: role.description || '',
+                    created_at: role.created_at,
+                    updated_at: role.updated_at
                 }
             }
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem finding the role',
+                detail: err.message
+            }]
         }));
 
 }
@@ -75,7 +111,11 @@ exports.update = function (req, res) {
 
     if (!req.params.role_name) {
         return res.status(400).json({
-            data: { message: 'No Role Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No role specified',
+                detail: 'Define a role name to update'
+            }]
         });
     }
 
@@ -86,14 +126,23 @@ exports.update = function (req, res) {
     })
         .then(role => res.status(200).json({
             data: {
-                role: {
+                type: 'role',
+                id: role._id,
+                attributes: {
+                    display_name: role.display_name,
                     name: role.name,
-                    description: role.description
+                    description: role.description || '',
+                    created_at: role.created_at,
+                    updated_at: role.updated_at
                 }
             }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem updating the role',
+                detail: err.message
+            }]
         }));
 
 }
@@ -102,16 +151,26 @@ exports.remove = function (req, res) {
 
     if (!req.params.role_name) {
         return res.status(400).json({
-            data: { message: 'No Role Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No role specified',
+                detail: 'Define a role name to remove'
+            }]
         });
     }
 
     return Role.deleteOne({ name: req.params.role_name })
         .then(() => res.status(200).json({
-            data: { message: 'Role removed successfully' }
+            meta: {
+                message: 'Permission removed successfully'
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem removing the role',
+                detail: err.message
+            }]
         }));
 
 }

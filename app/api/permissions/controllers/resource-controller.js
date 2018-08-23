@@ -54,9 +54,9 @@ exports.index = function (req, res) {
                 type: 'permission',
                 id: permission._id,
                 attributes: {
-                    display_name: permissions.display_name,
-                    name: permissions.name,
-                    description: permissions.description || '',
+                    display_name: permission.display_name,
+                    name: permission.name,
+                    description: permission.description || '',
                     created_at: permission.created_at,
                     updated_at: permission.updated_at
                 }

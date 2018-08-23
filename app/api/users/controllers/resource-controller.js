@@ -11,7 +11,9 @@ exports.store = function (req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.mapped() });
+        return res.status(422).json({
+            errors: errors.array()
+        });
     }
 
     var user = new User({
@@ -22,17 +24,35 @@ exports.store = function (req, res) {
     });
 
     return user.save()
-        .then(user => mailer().sendMail({
-            from: process.env.WEBSITE_EMAIL,
-            to: user.email,
-            subject: 'Confirm your Email',
-            html: user.confirmation_token
-        }))
-        .then(() => res.status(201).json({
-            data: { message: 'User Created' }
+        .then(user => {
+            mailer().sendMail({
+                from: process.env.WEBSITE_EMAIL,
+                to: user.email,
+                subject: 'Confirm your Email',
+                html: user.confirmation_token // TODO
+            })
+            return user;
+        })
+        .then(user => res.status(201).json({
+            data: {
+                type: 'user',
+                id: user._id,
+                attributes: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    confirmed: user.confirmed,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at
+                }
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem storing the user',
+                detail: err.message
+            }]
         }));
 
 }
@@ -42,14 +62,24 @@ exports.index = function (req, res) {
     return getUsers()
         .then(users => res.status(200).json({
             data: users.map(user => ({
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name || '',
-                email: user.email
+                type: 'user',
+                id: user._id,
+                attributes: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    confirmed: user.confirmed,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at
+                }
             }))
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem getting users',
+                detail: err.message
+            }]
         }));
     
 }
@@ -59,23 +89,35 @@ exports.show = function (req, res) {
 
     if (!req.params.user_id) {
         return res.status(400).json({
-            data: { message: 'No User ID provided' }
+            errors: [{
+                status: '400',
+                title: 'No user specified',
+                detail: 'Define a user id to revoke'
+            }]
         });
     }
 
     return findUserById(req.params.user_id)
         .then(user => res.status(200).json({
             data: {
-                user: {
-                    id: user.id,
+                type: 'user',
+                id: user._id,
+                attributes: {
                     first_name: user.first_name,
-                    last_name: user.last_name || '',
-                    email: user.email
+                    last_name: user.last_name,
+                    email: user.email,
+                    confirmed: user.confirmed,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at
                 }
             }
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem getting a user',
+                detail: err.message
+            }]
         }));
 
 }
@@ -84,7 +126,11 @@ exports.update = function (req, res) {
 
     if (!req.params.user_id) {
         return res.status(400).json({
-            data: { message: 'No User ID provided' }
+            errors: [{
+                status: '400',
+                title: 'No user specified',
+                detail: 'Define a user id to update'
+            }]
         });
     }
 
@@ -95,16 +141,24 @@ exports.update = function (req, res) {
     })
         .then(user => res.status(200).json({
             data: {
-                user: {
-                    id: user.id,
+                type: 'user',
+                id: user._id,
+                attributes: {
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    email: user.email
+                    email: user.email,
+                    confirmed: user.confirmed,
+                    created_at: user.created_at,
+                    updated_at: user.updated_at
                 }
             }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem updating a user',
+                detail: err.message
+            }]
         }));
 
 }
@@ -113,16 +167,26 @@ exports.remove = function (req, res) {
 
     if (!req.params.user_id) {
         return res.status(400).json({
-            data: { message: 'No User ID provided' }
+            errors: [{
+                status: '400',
+                title: 'No user specified',
+                detail: 'Define a user id to update'
+            }]
         });
     }
 
     return User.deleteOne({ _id: req.params.user_id })
         .then(() => res.status(200).json({
-            data: { message: 'User removed successfully' }
+            meta: {
+                message: 'User removed successfully'
+            }
         }))
         .catch(err => res.status(500).json({
-            data: { message: err.message }
+            errors: [{
+                status: '500',
+                title: 'There was a problem removing the user',
+                detail: err.message
+            }]
         }));
 
 }

@@ -6,22 +6,34 @@ function permissionsController(req, res) {
 
     if (!req.params.role_name) {
         return res.status(400).json({
-            data: { message: 'No Role Name provided' }
+            errors: [{
+                status: '400',
+                title: 'No role specified',
+                detail: 'Define a role to retrieve it\'s permissions'
+            }]
         });
     }
 
     return getRoleByName(req.params.role_name)
         .then(role => res.status(200).json({
-            data: {
-                permissions: role.permissions.map(permission => ({
-                    display_name: permission.display_name,
-                    name: permission.name,
-                    description: permission.description
-                }))
-            }
+            data: role.permissions.map(permission => ({
+                type: 'permission',
+                id: permission._id,
+                attributes: {
+                    display_name: permissions.display_name,
+                    name: permissions.name,
+                    description: permissions.description || '',
+                    created_at: permission.created_at,
+                    updated_at: permission.updated_at
+                }
+            })) || []
         }))
         .catch(err => res.status(err.statusCode || 500).json({
-            data: { message: err.message }
+            errors: [{
+                status: `${err.statusCode || 500}`,
+                title: 'There was a problem retrieving the roles permissions',
+                detail: err.message
+            }]
         }));
 
 }

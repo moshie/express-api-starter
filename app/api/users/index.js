@@ -9,7 +9,6 @@ const { revokeSingular, revokeMultiple } = require('./controllers/role-revoke-co
 
 const { getAuthenticatedUsersRoles, getUsersRoles } = require('./controllers/roles-controller');
 const { getAuthenticatedUsersPermissions, getUsersPermissions } = require('./controllers/permissions-controller');
-const { getAuthenticatedUsersConfirmation, getUsersConfirmation } = require('./controllers/confirmation-controller');
 
 const auth = require('../auth/middleware/authenticate');
 // const guestMiddleware = require('../auth/middleware/guest');
@@ -42,15 +41,6 @@ router.get('/roles', auth, getAuthenticatedUsersRoles);
  * Description: Authenticated user's permissions
  */
 router.get('/permissions', auth, getAuthenticatedUsersPermissions);
-
-/**
- * Name: Email confirmation check
- * Method: GET
- * Auth: true
- * Role: 
- * Description: Check the authenticated user's email is confirmed
- */
-router.get('/confirmed', auth, getAuthenticatedUsersConfirmation);
 
 /**
  * Name: Update user
@@ -159,14 +149,5 @@ router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeSingul
  * Description: Get a user's permissions
  */
 router.get('/:user_id/permissions', auth, hasRole('admin'), getUsersPermissions);
-
-/**
- * Name: Email confirmation check
- * Method: GET
- * Auth: true
- * Role: admin
- * Description: Check a user's email is confirmed
- */
-router.get('/:user_id/confirmed', auth, hasRole('admin'), getUsersConfirmation);
 
 module.exports = router;
