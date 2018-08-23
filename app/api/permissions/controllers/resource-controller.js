@@ -88,6 +88,7 @@ exports.update = function (req, res) {
         .then(role => res.status(200).json({
             data: {
                 role: {
+                    display_name: role.display_name,
                     name: role.name,
                     description: role.description
                 }

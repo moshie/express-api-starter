@@ -27,6 +27,23 @@ exports.getAuthenticatedUsersRoles = function (req, res) {
 }
 
 exports.getUsersRoles = function (req, res) {
-    // 
-}
 
+    if (!req.params.user_id) {
+        return res.status(400).json({
+            data: { message: 'No user id provided' }
+        });
+    }
+
+    getUserByID(req.params.user_id)
+        .then(user => ({
+            data: user.roles.map(role => ({
+                display_name: role.display_name,
+                name: role.name,
+                description: role.description
+            }))
+        }))
+        .catch(err => res.status(err.statusCode || 500).json({
+            data: { message: err.message }
+        }));
+
+}

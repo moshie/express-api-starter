@@ -3,7 +3,7 @@
 const User = require('../../../models/user');
 const ResponseError = require('../../../error-handlers/response-error');
 
-function findUserById (id) {
+function getUserById (id) {
     return new Promise((resolve, reject) => {
         User.findById(id)
             .populate('roles')
@@ -21,4 +21,4 @@ function findUserById (id) {
     });
 }
 
-module.exports = findUserById;
+module.exports = getUserById;

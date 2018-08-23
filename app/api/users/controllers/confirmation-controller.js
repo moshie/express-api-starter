@@ -24,4 +24,20 @@ exports.getAuthenticatedUsersConfirmation = function (req, res) {
 
 exports.getUsersConfirmation = function (req, res) {
 
+    if (!req.params.user_id) {
+        return res.status(400).json({
+            data: { message: 'No user id provided' }
+        });
+    }
+
+    return getUserByID(req.params.user_id)
+        .then(user => res.status(200).json({
+            data: {
+                confirmed: user.confirmed
+            }
+        }))
+        .catch(err => res.status(err.statusCode || 500).json({ 
+            data: { message: err.message } 
+        }));
+
 }

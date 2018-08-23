@@ -113,7 +113,7 @@ router.delete('/:user_id', auth, hasRole('admin'), remove);
  * Role: admin
  * Description: Get a user's roles
  */
-router.get('/:user_id/roles', auth, hasRole('admin'), getUsersRoles); // TODO
+router.get('/:user_id/roles', auth, hasRole('admin'), getUsersRoles);
 
 /**
  * Name: Assign user to roles
@@ -122,7 +122,7 @@ router.get('/:user_id/roles', auth, hasRole('admin'), getUsersRoles); // TODO
  * Role: admin
  * Description: Assign a user to multiple roles
  */
-router.put('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple); // TODO
+router.put('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple);
 
 /**
  * Name: Assign user to role
@@ -131,7 +131,7 @@ router.put('/:user_id/roles', auth, hasRole('admin'), require('./validators/role
  * Role: admin
  * Description: Assign a user to a role
  */
-router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignSingular); // TODO
+router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignSingular);
 
 /**
  * Name: Revoke users from roles
@@ -140,7 +140,7 @@ router.put('/:user_id/roles/:role_name', auth, hasRole('admin'), assignSingular)
  * Role: admin
  * Description: Revoke a users from multiple roles
  */
-router.delete('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple); // TODO
+router.delete('/:user_id/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple);
 
 /**
  * Name: Revoke a role
@@ -149,7 +149,7 @@ router.delete('/:user_id/roles', auth, hasRole('admin'), require('./validators/r
  * Role: admin
  * Description: Revoke a role from a user
  */
-router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeSingular); // TODO
+router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeSingular);
 
 /**
  * Name: User's permissions
@@ -158,7 +158,7 @@ router.delete('/:user_id/roles/:role_name', auth, hasRole('admin'), revokeSingul
  * Role: admin
  * Description: Get a user's permissions
  */
-router.get('/:user_id/permissions', auth, hasRole('admin'), getUsersPermissions); // TODO
+router.get('/:user_id/permissions', auth, hasRole('admin'), getUsersPermissions);
 
 /**
  * Name: Email confirmation check
@@ -167,6 +167,6 @@ router.get('/:user_id/permissions', auth, hasRole('admin'), getUsersPermissions)
  * Role: admin
  * Description: Check a user's email is confirmed
  */
-router.get('/:user_id/confirmed', auth, hasRole('admin'), getUsersConfirmation); // TODO
+router.get('/:user_id/confirmed', auth, hasRole('admin'), getUsersConfirmation);
 
 module.exports = router;

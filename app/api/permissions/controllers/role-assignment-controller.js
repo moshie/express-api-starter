@@ -1,7 +1,7 @@
 "use strict";
 
 const { validationResult } = require('express-validator/check');
-const savePermissionToRoles = require('../helpers/save-permission-to-roles')
+const savePermissionToRoles = require('../helpers/save-permission-to-roles');
 
 exports.assignMultiple = function (req, res) {
 
