@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "istanbul cover _mocha -- './app/**/*.spec.js' -R spec",
+    "test": "istanbul cover -x 'app/**/*.spec.js' _mocha -- './app/**/*.spec.js' -R spec",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -26,6 +26,8 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^6.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.0",
+    "sinon": "^6.1.5"
   }
 }

@@ -10,7 +10,7 @@ function deletePasswordResetEntry(user) {
                 return reject(new ResponseError(err.message));
             }
 
-            resolve(user);
+            resolve(true);
         });
     });
 }
