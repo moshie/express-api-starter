@@ -1,11 +1,11 @@
 "use strict";
 
-const { randomBytes } = require('crypto');
+const crypto = require('crypto');
 const ResponseError = require('../../../error-handlers/response-error');
 
 function generateToken() {
     return new Promise((resolve, reject) => {
-        randomBytes(12, function (err, buffer) {
+        crypto.randomBytes(12, function (err, buffer) {
             if (err) {
                 return reject(new ResponseError(err.message));
             }
