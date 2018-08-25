@@ -1,7 +1,12 @@
 "use strict";
 
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+const chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
+
+const expect = chai.expect;
 
 const generateJwt = require('./generate-jwt');
 const ResponseError = require('../../../error-handlers/response-error');
@@ -22,27 +27,18 @@ describe('Generate JWT', function () {
     });
 
     it('should resolve with a token', function () {
-        jwt.sign.yields(null, 'JWTtoken');
+        const token = 'JWTtoken';
+        jwt.sign.yields(null, token);
 
-        return generateJwt({ _id: 'userID' })
-            .then(function (token) {
-                expect(token).to.be.a('string');
-                expect(token).to.equal('JWTtoken');
-            });
+        return expect(generateJwt({ _id: 'userID' })).to.eventually.to.be.a('string').and.to.equal(token);
     });
 
-    it('should reject with a response error', function () {
+    it('should reject with a 500 response error', function () {
         const errorMessage = 'opps something went wrong';
         jwt.sign.yields(new Error(errorMessage), null);
 
-        return generateJwt({ _id: 'userID' })
-            .catch(err => {
-                expect(err).to.be.an.instanceof(ResponseError);
-                expect(err).to.have.property('message', errorMessage);
-                expect(err).to.have.property('statusCode', 500);
-            });
+        return expect(generateJwt({_id: ''})).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500);
     });
-
 
 });
 

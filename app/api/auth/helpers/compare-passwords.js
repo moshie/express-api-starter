@@ -1,11 +1,11 @@
 "use strict";
 
-const { compare } = require('bcrypt');
+const bcrypt = require('bcrypt');
 const ResponseError = require('../../../error-handlers/response-error');
 
 function comparePasswords (user, password) {
     return new Promise((resolve, reject) => {
-        compare(password, user.password, function (err, response) {
+        bcrypt.compare(password, user.password, function (err, response) {
             if (err) {
                 return reject(new ResponseError(err.message));
             }

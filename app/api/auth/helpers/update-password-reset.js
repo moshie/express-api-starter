@@ -6,6 +6,7 @@ const ResponseError = require('../../../error-handlers/response-error');
 function updatePasswordReset(email, token, doc = null) {
     return new Promise((resolve, reject) => {
 
+        // If reset token already exists set it as the token
         if (doc !== null) {
             doc.token = token;
         }

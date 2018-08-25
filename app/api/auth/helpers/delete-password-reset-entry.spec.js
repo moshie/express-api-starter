@@ -1,7 +1,12 @@
 "use strict";
 
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+const chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
+
+const expect = chai.expect;
 
 const PasswordResets = require('../../../models/password-resets');
 const deletePasswordResetEntry = require('./delete-password-reset-entry');
@@ -24,22 +29,14 @@ describe('Delete Password Reset Entry', function () {
     it('should resolve with true if no errors', function () {
         PasswordResets.deleteOne.yields(null);
 
-        return deletePasswordResetEntry({ email: 'hello@hello.com' })
-            .then(response => {
-                expect(response).to.be.true;
-            });
+        return expect(deletePasswordResetEntry({ email: 'hello@hello.com' })).to.eventually.be.true;
     });
 
     it('should reject with a request error and a status code of 500', function () {
         const errorMessage = 'opps something went wrong';
         PasswordResets.deleteOne.yields(new Error(errorMessage));
 
-        return deletePasswordResetEntry({ email: 'hello@hello.com' })
-            .catch(err => {
-                expect(err).to.be.an.instanceof(ResponseError);
-                expect(err).to.have.property('message', errorMessage);
-                expect(err).to.have.property('statusCode', 500);
-            });
+        return expect(deletePasswordResetEntry({ email: 'hello@hello.com' })).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500);
     });
 
 });

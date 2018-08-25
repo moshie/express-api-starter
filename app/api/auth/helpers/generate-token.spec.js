@@ -1,13 +1,18 @@
 "use strict";
 
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+const chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
+
+const expect = chai.expect;
 
 const generateToken = require('./generate-token');
 const ResponseError = require('../../../error-handlers/response-error');
 const crypto = require('crypto');
 
-describe('Generate JWT', function () {
+describe('Generate Password Reset Token', function () {
 
     beforeEach(function() {
         sinon.stub(crypto, 'randomBytes')
@@ -25,25 +30,14 @@ describe('Generate JWT', function () {
         var bufferedToken = new Buffer('hello');
         crypto.randomBytes.yields(null, bufferedToken);
 
-        return generateToken()
-            .then(function (token) {
-                expect(token).to.be.a('string');
-                expect(token).to.equal(bufferedToken.toString('hex'));
-            });
+        return expect(generateToken()).to.eventually.be.a('string').and.to.equal(bufferedToken.toString('hex'));
     });
 
     it('should reject with a response error', function () {
         var errorMessage = 'opps an error occured';
         crypto.randomBytes.yields(new Error(errorMessage));
 
-        return generateToken()
-            .catch(function (err) {
-                expect(err).to.be.an.instanceof(ResponseError);
-                expect(err).to.have.property('message', errorMessage);
-                expect(err).to.have.property('statusCode', 500);
-            });
+        return expect(generateToken()).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500);
     });
 
-
 });
-
