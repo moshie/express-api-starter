@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const User = require('../../../models/user');
-const { body } = require('express-validator/check');
+const User = require('../../../models/user')
+const { body } = require('express-validator/check')
 
 const registrationValidation = [
 
@@ -16,9 +16,9 @@ const registrationValidation = [
         .custom(value => new Promise((resolve, reject) => {
             User.findOne({ email: value }, function (err, user) {
                 if (err || user !== null) {
-                    return reject('E-mail is already in use');
+                    return reject('E-mail is already in use')
                 }
-                resolve();
+                resolve()
             })
         })),
 
@@ -31,6 +31,6 @@ const registrationValidation = [
         .exists().isString().withMessage('Password Confirmation is invalid')
         .not().isEmpty().withMessage('Password Confirmation is a required field')
         .custom((value, { req }) => value === req.body.password).withMessage('Password confirmation and password must match')
-];
+]
 
-module.exports = registrationValidation;
+module.exports = registrationValidation

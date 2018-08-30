@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const jwt = require('jsonwebtoken');
-const ResponseError = require('../../../error-handlers/response-error');
+const jwt = require('jsonwebtoken')
+const ResponseError = require('../../../error-handlers/response-error')
 
 function generateJWT (user) {
     return new Promise((resolve, reject) => {
@@ -10,12 +10,12 @@ function generateJWT (user) {
             user: user._id
         }, process.env.JWT_SECRET, function (err, token) {
             if (err) {
-                return reject(new ResponseError(err.message));
+                return reject(new ResponseError(err.message))
             }
 
-            resolve(token);
-        });
-    });
+            resolve(token)
+        })
+    })
 }
 
-module.exports = generateJWT;
+module.exports = generateJWT

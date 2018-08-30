@@ -1,18 +1,18 @@
-"use strict";
+'use strict'
 
-const generateJWT = require('../helpers/generate-jwt');
-const check = require('express-validator/check');
-const comparePasswords = require('../helpers/compare-passwords');
-const getUserByEmail = require('../../users/helpers/get-user-by-email');
+const generateJWT = require('../helpers/generate-jwt')
+const check = require('express-validator/check')
+const comparePasswords = require('../helpers/compare-passwords')
+const getUserByEmail = require('../../users/helpers/get-user-by-email')
 
 function loginController(req, res) {
 
-    const errors = check.validationResult(req);
+    const errors = check.validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({
             errors: errors.array() 
-        });
+        })
     }
 
     return getUserByEmail(req.body.email)
@@ -29,8 +29,8 @@ function loginController(req, res) {
                 title: 'There was a problem authenticating',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = loginController;
+module.exports = loginController

@@ -1,17 +1,17 @@
-"use strict";
+'use strict'
 
-const mailer = require('../../../services/mailer-service');
-const { validationResult } = require('express-validator/check');
-const storePasswordResetToken = require('../helpers/store-password-reset-token');
+const mailer = require('../../../services/mailer-service')
+const { validationResult } = require('express-validator/check')
+const storePasswordResetToken = require('../helpers/store-password-reset-token')
 
 function forgottenController(req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     return storePasswordResetToken(req.body.email)
@@ -33,8 +33,8 @@ function forgottenController(req, res) {
                 title: 'There was a problem attempting to send a reset password email',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = forgottenController;
+module.exports = forgottenController

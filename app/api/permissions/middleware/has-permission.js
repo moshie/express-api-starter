@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const getRolesPermissions = require('../helpers/get-roles-permissions');
-const getUserByID = require('../../users/helpers/get-user-by-id');
+const getRolesPermissions = require('../helpers/get-roles-permissions')
+const getUserByID = require('../../users/helpers/get-user-by-id')
 
 function hasPermission(permission) {
     return function (req, res, next) {
@@ -9,24 +9,24 @@ function hasPermission(permission) {
         function Forbidden(message = 'Forbidden') {
             res.status(403).json({
                 data: { message }
-            });
+            })
         }
 
         if (!res.locals.token && !res.locals.token.user) {
-            return Forbidden();
+            return Forbidden()
         }
 
         getUserByID(res.locals.token.user)
             .then(user => getRolesPermissions(user.roles))
             .then(permissions => {
                 if (permissions.indexOf(permission) === -1) {
-                    return Forbidden();
+                    return Forbidden()
                 }
 
-                next();
-            });
+                next()
+            })
 
     }
 }
 
-module.exports = hasPermission;
+module.exports = hasPermission

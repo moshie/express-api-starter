@@ -1,17 +1,17 @@
-"use strict";
+'use strict'
 
-const User = require('../../../models/user');
-const mailer = require('../../../services/mailer-service');
-const { validationResult } = require('express-validator/check');
+const User = require('../../../models/user')
+const mailer = require('../../../services/mailer-service')
+const { validationResult } = require('express-validator/check')
 
 function registrationController(req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     var user = new User({
@@ -19,7 +19,7 @@ function registrationController(req, res) {
         last_name: req.body.last_name || '',
         email: req.body.email,
         password: req.body.password
-    });
+    })
 
     return user.save()
         .then(user => {
@@ -28,8 +28,8 @@ function registrationController(req, res) {
                 to: user.email,
                 subject: 'Confirm your Email',
                 html: user.confirmation_token
-            });
-            return user;
+            })
+            return user
         })
         .then(user => res.status(201).json({
             data: {
@@ -51,8 +51,8 @@ function registrationController(req, res) {
                 title: 'There was a problem registering',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = registrationController;
+module.exports = registrationController

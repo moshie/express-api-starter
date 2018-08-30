@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const User = require('../../../models/user');
-const { body } = require('express-validator/check');
+const User = require('../../../models/user')
+const { body } = require('express-validator/check')
 
 const updateUserValidation = [
 
@@ -16,12 +16,12 @@ const updateUserValidation = [
         .custom(value => new Promise((resolve, reject) => {
             User.findOne({ email: value }, function (err, user) {
                 if (err || user !== null) {
-                    return reject('E-mail is already in use');
+                    return reject('E-mail is already in use')
                 }
-                resolve();
+                resolve()
             })
         }))
 
-];
+]
 
-module.exports = updateUserValidation;
+module.exports = updateUserValidation

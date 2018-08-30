@@ -1,26 +1,26 @@
-"use strict";
+'use strict'
 
-const Permission = require('../../../models/permissions');
-const updatePermission = require('../helpers/update-permission');
-const getPermissionByName = require('../helpers/get-permission-by-name');
+const Permission = require('../../../models/permissions')
+const updatePermission = require('../helpers/update-permission')
+const getPermissionByName = require('../helpers/get-permission-by-name')
 
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check')
 
 exports.store = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     var permission = new Permission({
         display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description || ''
-    });
+    })
 
     return permission.save()
         .then(permission => res.status(201).json({
@@ -42,7 +42,7 @@ exports.store = function (req, res) {
                 title: 'There was a problem while saving the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -68,7 +68,7 @@ exports.index = function (req, res) {
                 title: 'There was a problem finding permissions',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -81,7 +81,7 @@ exports.show = function (req, res) {
                 title: 'No permission specified',
                 detail: 'Define a permission name to retrieve'
             }]
-        });
+        })
     }
 
     return getPermissionByName(req.params.permission_name)
@@ -104,7 +104,7 @@ exports.show = function (req, res) {
                 title: 'There was a problem finding the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -117,7 +117,7 @@ exports.update = function (req, res) {
                 title: 'No permission specified',
                 detail: 'Define a permission name to update'
             }]
-        });
+        })
     }
 
     return updatePermission(req.params.permission_name, {
@@ -144,7 +144,7 @@ exports.update = function (req, res) {
                 title: 'There was a problem updating the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -157,7 +157,7 @@ exports.remove = function (req, res) {
                 title: 'No permission specified',
                 detail: 'Define a permission name to remove'
             }]
-        });
+        })
     }
 
     return Permission.deleteOne({ name: req.params.permission_name })
@@ -172,6 +172,6 @@ exports.remove = function (req, res) {
                 title: 'There was a problem removing the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

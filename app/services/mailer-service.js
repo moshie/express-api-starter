@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const nodemailer = require('nodemailer');
-const mailgun = require('nodemailer-mailgun-transport');
+const nodemailer = require('nodemailer')
+const mailgun = require('nodemailer-mailgun-transport')
 
 function mailer () {
     return nodemailer.createTransport(mailgun({
@@ -9,7 +9,7 @@ function mailer () {
             api_key: process.env.MAILGUN_API_KEY,
             domain: process.env.MAILGUN_DOMAIN
         }
-    }));
+    }))
 }
 
-module.exports = mailer;
+module.exports = mailer

@@ -1,25 +1,25 @@
-"use strict";
+'use strict'
 
-const Role = require('../../../models/roles');
-const updateRole = require('../helpers/update-role');
-const getRoleByName = require('../helpers/get-role-by-name');
-const { validationResult } = require('express-validator/check');
+const Role = require('../../../models/roles')
+const updateRole = require('../helpers/update-role')
+const getRoleByName = require('../helpers/get-role-by-name')
+const { validationResult } = require('express-validator/check')
 
 exports.store = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({
             errors: errors.array()
-        });
+        })
     }
 
     var role = new Role({
         display_name: req.body.display_name,
         name: req.body.name,
         description: req.body.description || ''
-    });
+    })
 
     return role.save()
         .then(role => res.status(201).json({
@@ -41,7 +41,7 @@ exports.store = function (req, res) {
                 title: 'There was a problem saving the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -67,7 +67,7 @@ exports.index = function (req, res) {
                 title: 'There was a problem finding roles',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -80,7 +80,7 @@ exports.show = function (req, res) {
                 title: 'No role specified',
                 detail: 'Define a role name to retrieve'
             }]
-        });
+        })
     }
 
     return getRoleByName(req.params.role_name)
@@ -103,7 +103,7 @@ exports.show = function (req, res) {
                 title: 'There was a problem finding the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -116,7 +116,7 @@ exports.update = function (req, res) {
                 title: 'No role specified',
                 detail: 'Define a role name to update'
             }]
-        });
+        })
     }
 
     return updateRole(req.params.role_name, {
@@ -143,7 +143,7 @@ exports.update = function (req, res) {
                 title: 'There was a problem updating the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -156,7 +156,7 @@ exports.remove = function (req, res) {
                 title: 'No role specified',
                 detail: 'Define a role name to remove'
             }]
-        });
+        })
     }
 
     return Role.deleteOne({ name: req.params.role_name })
@@ -171,6 +171,6 @@ exports.remove = function (req, res) {
                 title: 'There was a problem removing the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

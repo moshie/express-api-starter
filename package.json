@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "lint": "eslint app --ignore-pattern '**/*.spec.js'",
     "test": "istanbul cover -x 'app/**/*.spec.js' _mocha -- './app/**/*.spec.js' -R spec",
     "start": "node ./bin/www"
   },
@@ -25,6 +26,7 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^6.0.0",
+    "eslint": "^5.4.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "node-mocks-http": "^1.7.0",

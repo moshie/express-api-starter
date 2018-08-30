@@ -1,17 +1,17 @@
-"use strict";
+'use strict'
 
-const mailer = require('../../../services/mailer-service');
-const resetPassword = require('../helpers/reset-password');
-const { validationResult } = require('express-validator/check');
+const mailer = require('../../../services/mailer-service')
+const resetPassword = require('../helpers/reset-password')
+const { validationResult } = require('express-validator/check')
 
 function resetController(req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     return resetPassword(req.body.email, req.body.token, req.body.password)
@@ -21,8 +21,8 @@ function resetController(req, res) {
                 to: user.email,
                 subject: 'Password Updated',
                 html: `${user.full_name} your password has been updated`
-            });
-            return user;
+            })
+            return user
         })
         .then(user => res.status(200).json({
             data: {
@@ -44,8 +44,8 @@ function resetController(req, res) {
                 title: 'There was a problem reseting the password',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = resetController;
+module.exports = resetController

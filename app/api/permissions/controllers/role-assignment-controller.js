@@ -1,16 +1,16 @@
-"use strict";
+'use strict'
 
-const { validationResult } = require('express-validator/check');
-const savePermissionToRoles = require('../helpers/save-permission-to-roles');
+const { validationResult } = require('express-validator/check')
+const savePermissionToRoles = require('../helpers/save-permission-to-roles')
 
 exports.assignMultiple = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     if (!req.params.permission_name) {
@@ -20,7 +20,7 @@ exports.assignMultiple = function (req, res) {
                 title: 'No permission specified',
                 detail: 'Define a permission name to retrieve'
             }]
-        });
+        })
     }
 
     return savePermissionToRoles(req.params.permission_name, req.body.roles)
@@ -43,7 +43,7 @@ exports.assignMultiple = function (req, res) {
                 title: 'There was a problem assigning the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -56,15 +56,15 @@ exports.assignSingular = function (req, res) {
                 title,
                 detail
             }]
-        });
+        })
     }
 
     if (!req.params.permission_name) {
-        return badRequest('No permission specified', 'Define a permission name to assign');
+        return badRequest('No permission specified', 'Define a permission name to assign')
     }
 
     if (!req.params.role_name) {
-        return badRequest('No role specified', 'Define a role name to assign to');
+        return badRequest('No role specified', 'Define a role name to assign to')
     }
 
     return savePermissionToRoles(req.params.permission_name, [req.params.role_name])
@@ -87,6 +87,6 @@ exports.assignSingular = function (req, res) {
                 title: 'There was a problem assigning the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const User = require('../../../models/user');
-const { body } = require('express-validator/check');
+const User = require('../../../models/user')
+const { body } = require('express-validator/check')
 
 const forgottenValidation = [
 
@@ -12,12 +12,12 @@ const forgottenValidation = [
         .custom(value => new Promise((resolve, reject) => {
             User.findOne({ email: value }, function (err, user) {
                 if (err || user === null) {
-                    return reject('User does not exist with that E-Mail');
+                    return reject('User does not exist with that E-Mail')
                 }
-                resolve();
+                resolve()
             })
         }))
 
-];
+]
 
-module.exports = forgottenValidation;
+module.exports = forgottenValidation

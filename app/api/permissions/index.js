@@ -1,16 +1,16 @@
-"use strict";
+'use strict'
 
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const { store, index, show, update, remove } = require('./controllers/resource-controller');
-const { assignMultiple, assignSingular } = require('./controllers/role-assignment-controller');
-const { revokeMultiple, revokeSingular } = require('./controllers/role-revoke-controller');
+const { store, index, show, update, remove } = require('./controllers/resource-controller')
+const { assignMultiple, assignSingular } = require('./controllers/role-assignment-controller')
+const { revokeMultiple, revokeSingular } = require('./controllers/role-revoke-controller')
 
-const auth = require('../auth/middleware/authenticate');
+const auth = require('../auth/middleware/authenticate')
 // const guestMiddleware = require('../auth/middleware/guest');
 // const hasPermission = require('./middleware/has-permission');
-const hasRole = require('../roles/middleware/has-role');
+const hasRole = require('../roles/middleware/has-role')
 
 /**
  * Name: Create a permission
@@ -19,7 +19,7 @@ const hasRole = require('../roles/middleware/has-role');
  * Role: admin
  * Description: Create a new permission
  */
-router.post('/', auth, hasRole('admin'), require('./validators/permission-validator'), store);
+router.post('/', auth, hasRole('admin'), require('./validators/permission-validator'), store)
 
 /**
  * Name: Get permissions
@@ -28,7 +28,7 @@ router.post('/', auth, hasRole('admin'), require('./validators/permission-valida
  * Role: admin
  * Description: Get all permissions
  */
-router.get('/', auth, hasRole('admin'), index);
+router.get('/', auth, hasRole('admin'), index)
 
 /**
  * Name: Get a permission
@@ -37,7 +37,7 @@ router.get('/', auth, hasRole('admin'), index);
  * Role: admin
  * Description: Get a particular permission
  */
-router.get('/:permission_name', auth, hasRole('admin'), show);
+router.get('/:permission_name', auth, hasRole('admin'), show)
 
 /**
  * Name: Update a permission
@@ -46,7 +46,7 @@ router.get('/:permission_name', auth, hasRole('admin'), show);
  * Role: admin
  * Description: Update a particular permission
  */
-router.put('/:permission_name', auth, hasRole('admin'), require('./validators/permission-validator'), update);
+router.put('/:permission_name', auth, hasRole('admin'), require('./validators/permission-validator'), update)
 
 /**
  * Name: Remove a permission
@@ -55,7 +55,7 @@ router.put('/:permission_name', auth, hasRole('admin'), require('./validators/pe
  * Role: admin
  * Description: Remove a particular permission
  */
-router.delete('/:permission_name', auth, hasRole('admin'), remove);
+router.delete('/:permission_name', auth, hasRole('admin'), remove)
 
 /**
  * Name: Assign permission to roles
@@ -64,7 +64,7 @@ router.delete('/:permission_name', auth, hasRole('admin'), remove);
  * Role: admin
  * Description: Assign a permission to multiple roles
  */
-router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple);
+router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), assignMultiple)
 
 /**
  * Name: Assign permission to a role
@@ -73,7 +73,7 @@ router.put('/:permission_name/roles', auth, hasRole('admin'), require('./validat
  * Role: admin
  * Description: Assign a permission to a role
  */
-router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignSingular);
+router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignSingular)
 
 /**
  * Name: Revoke permission from roles
@@ -82,7 +82,7 @@ router.put('/:permission_name/roles/:role_name', auth, hasRole('admin'), assignS
  * Role: admin
  * Description: Revoke a permission from multiple roles
  */
-router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple);
+router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./validators/role-validator'), revokeMultiple)
 
 /**
  * Name: Revoke permission from role
@@ -91,6 +91,6 @@ router.delete('/:permission_name/roles', auth, hasRole('admin'), require('./vali
  * Role: admin
  * Description: Revoke a permission from a role
  */
-router.delete('/:permission_name/roles/:role_name', auth, hasRole('admin'), revokeSingular);
+router.delete('/:permission_name/roles/:role_name', auth, hasRole('admin'), revokeSingular)
 
-module.exports = router;
+module.exports = router

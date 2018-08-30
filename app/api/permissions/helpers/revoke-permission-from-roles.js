@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
-const getPermissionByName = require('../helpers/get-permission-by-name');
-const removePermissionFromRole = require('../helpers/remove-permission-from-role');
-const getRoleByName = require('../../roles/helpers/get-role-by-name');
+const getPermissionByName = require('../helpers/get-permission-by-name')
+const removePermissionFromRole = require('../helpers/remove-permission-from-role')
+const getRoleByName = require('../../roles/helpers/get-role-by-name')
 
 function revokePermissionFromRoles(permission_name, roles = []) {
 
@@ -12,8 +12,8 @@ function revokePermissionFromRoles(permission_name, roles = []) {
                 return getRoleByName(role)
                     .then(role => removePermissionFromRole(permission, role))
             })
-        ));
+        ))
 
 }
 
-module.exports = revokePermissionFromRoles;
+module.exports = revokePermissionFromRoles

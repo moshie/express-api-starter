@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const getUserByID = require('../helpers/get-user-by-id');
-const getRolesPermissions = require('../../roles/helpers/get-roles-permissions');
+const getUserByID = require('../helpers/get-user-by-id')
+const getRolesPermissions = require('../../roles/helpers/get-roles-permissions')
 
 exports.getAuthenticatedUsersPermissions = function (req, res) {
 
@@ -12,7 +12,7 @@ exports.getAuthenticatedUsersPermissions = function (req, res) {
                 title: 'Invalid Token',
                 detail: 'User is not authenticated'
             }]
-        });
+        })
     }
 
     return getUserByID(res.locals.token.user)
@@ -36,7 +36,7 @@ exports.getAuthenticatedUsersPermissions = function (req, res) {
                 title: 'There was a problem revoking the role',
                 detail: err.message
             }]
-        }));
+        }))
 }
 
 exports.getUsersPermissions = function (req, res) {
@@ -48,7 +48,7 @@ exports.getUsersPermissions = function (req, res) {
                 title: 'No user specified',
                 detail: 'Define a user id to revoke'
             }]
-        });
+        })
     }
 
     return getUserByID(req.params.user_id)
@@ -72,6 +72,6 @@ exports.getUsersPermissions = function (req, res) {
                 title: 'There was a problem retrieving the users permissions',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

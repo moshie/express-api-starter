@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 
-const mongoose = require('mongoose');
-const { hash } = require('bcrypt');
-const generateToken = require('../api/auth/helpers/generate-token');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const { hash } = require('bcrypt')
+const generateToken = require('../api/auth/helpers/generate-token')
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
     first_name: {
@@ -39,12 +39,12 @@ const userSchema = new Schema({
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-});
+})
 
 userSchema.virtual('full_name')
     .get(function () {
-        return `${this.first_name} ${this.last_name}`;
-    });
+        return `${this.first_name} ${this.last_name}`
+    })
 
 userSchema.pre('save', function (next) {
 
@@ -52,14 +52,13 @@ userSchema.pre('save', function (next) {
         return Promise.all([
             hash(this.password, 10),
             generateToken()
-        ])
-        .then(encryptedValues => {
+        ]).then(encryptedValues => {
             this.confirmation_token = encryptedValues[1]
-            this.password = encryptedValues[0];
+            this.password = encryptedValues[0]
         })
     }
 
-    next();
-});
+    next()
+})
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)

@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const permissionsSchema = new mongoose.Schema({
     display_name: {
@@ -24,6 +24,6 @@ const permissionsSchema = new mongoose.Schema({
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-});
+})
 
-module.exports = mongoose.model('Permission', permissionsSchema);
+module.exports = mongoose.model('Permission', permissionsSchema)

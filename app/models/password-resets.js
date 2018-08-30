@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const passwordsSchema = new mongoose.Schema({
     email: {
@@ -19,6 +19,6 @@ const passwordsSchema = new mongoose.Schema({
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-});
+})
 
-module.exports = mongoose.model('PasswordReset', passwordsSchema);
+module.exports = mongoose.model('PasswordReset', passwordsSchema)

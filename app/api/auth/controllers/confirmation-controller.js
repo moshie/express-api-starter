@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const confirmAUser = require('../helpers/confirm-a-user');
+const confirmAUser = require('../helpers/confirm-a-user')
 
 function confirmationController(req, res) {
 
@@ -17,8 +17,8 @@ function confirmationController(req, res) {
                 title: 'Failed to confirm user\'s email',
                 detail: ''
             }]
-        }));
+        }))
 
 }
 
-module.exports = confirmationController;
+module.exports = confirmationController

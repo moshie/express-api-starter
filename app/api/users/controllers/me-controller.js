@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const getUserByID = require('../helpers/get-user-by-id');
+const getUserByID = require('../helpers/get-user-by-id')
 
 function meController(req, res) {
 
@@ -11,7 +11,7 @@ function meController(req, res) {
                 title: 'Invalid Token',
                 detail: 'User is not authenticated'
             }]
-        });
+        })
     }
 
     return getUserByID(res.locals.token.user)
@@ -35,8 +35,8 @@ function meController(req, res) {
                 title: 'There was a problem getting the authenticated user',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = meController;
+module.exports = meController

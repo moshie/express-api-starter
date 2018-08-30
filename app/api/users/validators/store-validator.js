@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const { body } = require('express-validator/check');
+const { body } = require('express-validator/check')
 
 const storeValidation = [
 
@@ -22,6 +22,6 @@ const storeValidation = [
         .exists().isString().withMessage('Password Confirmation is invalid')
         .not().isEmpty().withMessage('Password Confirmation is a required field')
         .custom((value, { req }) => value === req.body.password).withMessage('Password confirmation and password must match')
-];
+]
 
-module.exports = storeValidation;
+module.exports = storeValidation

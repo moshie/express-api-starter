@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const { body } = require('express-validator/check');
+const { body } = require('express-validator/check')
 
 const usersRoleValidator = [
 
@@ -8,6 +8,6 @@ const usersRoleValidator = [
         .exists().isArray().withMessage('Users are invalid')
         .not().isEmpty().withMessage('Users are required')
 
-];
+]
 
-module.exports = usersRoleValidator;
+module.exports = usersRoleValidator

@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const updateUser = require('../helpers/update-user');
+const updateUser = require('../helpers/update-user')
 
 function UpdateProfileController(req, res) {
 
@@ -11,7 +11,7 @@ function UpdateProfileController(req, res) {
                 title: 'Invalid Token',
                 detail: 'User is not authenticated'
             }]
-        });
+        })
     }
 
     return updateUser(res.locals.token.user, {
@@ -39,7 +39,7 @@ function UpdateProfileController(req, res) {
                 title: 'There was a problem updating the user',
                 detail: err.message
             }]
-        }));
+        }))
 }
 
-module.exports = UpdateProfileController;
+module.exports = UpdateProfileController

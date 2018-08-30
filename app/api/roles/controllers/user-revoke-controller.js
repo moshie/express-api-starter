@@ -1,16 +1,16 @@
-"use strict";
+'use strict'
 
-const { validationResult } = require('express-validator/check');
-const revokeRolefromUsers = require('../helpers/revoke-role-from-users');
+const { validationResult } = require('express-validator/check')
+const revokeRolefromUsers = require('../helpers/revoke-role-from-users')
 
 exports.revokeMultiple = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({
             errors: errors.array()
-        });
+        })
     }
 
     if (!req.params.role_name) {
@@ -20,7 +20,7 @@ exports.revokeMultiple = function (req, res) {
                 title: 'No role specified',
                 detail: 'Define a role name to revoke'
             }]
-        });
+        })
     }
 
     return revokeRolefromUsers(req.params.role_name, req.body.users)
@@ -44,7 +44,7 @@ exports.revokeMultiple = function (req, res) {
                 title: 'There was a problem revoking the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -57,15 +57,15 @@ exports.revokeSingular = function (req, res) {
                 title,
                 detail
             }]
-        });
+        })
     }
 
     if (!req.params.role_name) {
-        return badRequest('No role specified', 'Define a role name to revoke');
+        return badRequest('No role specified', 'Define a role name to revoke')
     }
 
     if (!req.params.user_id) {
-        return badRequest('No user specified', 'Define a user id to revoke');
+        return badRequest('No user specified', 'Define a user id to revoke')
     }
 
     return revokeRolefromUsers(req.params.role_name, [req.params.user_id])
@@ -89,6 +89,6 @@ exports.revokeSingular = function (req, res) {
                 title: 'There was a problem revoking the role',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

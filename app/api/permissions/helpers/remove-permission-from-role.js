@@ -1,26 +1,26 @@
-"use strict";
+'use strict'
 
-const ResponseError = require('../../../error-handlers/response-error');
-const roleHasPermission = require('./role-has-permissions');
+const ResponseError = require('../../../error-handlers/response-error')
+const roleHasPermission = require('./role-has-permissions')
 
 function removePermissionFromRole(permission, role) {
     return new Promise((resolve, reject) => {
 
-        if (!roleHasPermission(roles.permissions, [permission.name])) {
+        if (!roleHasPermission(role.permissions, [permission.name])) {
             // Role already has that permission
-            return resolve(role);
+            return resolve(role)
         }
 
-        role.permissions = role.permissions.filter(p => !permission._id.equals(p._id));
+        role.permissions = role.permissions.filter(p => !permission._id.equals(p._id))
 
         role.save(function (err, savedRole) {
             if (err) {
-                return reject(new ResponseError(err.message));
+                return reject(new ResponseError(err.message))
             }
 
-            resolve(savedRole);
-        });
+            resolve(savedRole)
+        })
     })
 }
 
-module.exports = removePermissionFromRole;
+module.exports = removePermissionFromRole

@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const { body } = require('express-validator/check');
-const Role = require('../../../models/roles');
+const { body } = require('express-validator/check')
+const Role = require('../../../models/roles')
 
 const createValidation = [
 
@@ -15,15 +15,15 @@ const createValidation = [
         .custom(value => new Promise((resolve, reject) => {
             Role.findOne({ name: value }, function (err, role) {
                 if (err || role !== null) {
-                    return reject('Role name is already in use');
+                    return reject('Role name is already in use')
                 }
-                resolve();
+                resolve()
             })
         })),
 
     body('description')
         .exists().isString().withMessage('Description is invalid')
 
-];
+]
 
-module.exports = createValidation;
+module.exports = createValidation

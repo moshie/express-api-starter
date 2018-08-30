@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const guest = require('./middleware/guest');
+const guest = require('./middleware/guest')
 
 /**
  * Name: Login
@@ -12,7 +12,7 @@ const guest = require('./middleware/guest');
  * Role: 
  * Description: Login to access restricted endpoints
  */
-router.post('/login', guest, require('./validators/login-validator.js'), require('./controllers/login-controller.js'));
+router.post('/login', guest, require('./validators/login-validator.js'), require('./controllers/login-controller.js'))
 
 /**
  * Name: Register
@@ -21,7 +21,7 @@ router.post('/login', guest, require('./validators/login-validator.js'), require
  * Role: 
  * Description: Register with user information
  */
-router.post('/register', guest, require('./validators/registration-validator.js'), require('./controllers/registration-controller.js'));
+router.post('/register', guest, require('./validators/registration-validator.js'), require('./controllers/registration-controller.js'))
 
 /**
  * Name: Forgotten Password
@@ -30,7 +30,7 @@ router.post('/register', guest, require('./validators/registration-validator.js'
  * Role: 
  * Description: Send forgotten email
  */
-router.post('/forgot', guest, require('./validators/forgotten-password-validator'), require('./controllers/forgotten-password-controller'));
+router.post('/forgot', guest, require('./validators/forgotten-password-validator'), require('./controllers/forgotten-password-controller'))
 
 /**
  * Name: Reset
@@ -39,7 +39,7 @@ router.post('/forgot', guest, require('./validators/forgotten-password-validator
  * Role: 
  * Description: Reset users password
  */
-router.post('/reset', guest, require('./validators/reset-password-validator'), require('./controllers/reset-password-controller'));
+router.post('/reset', guest, require('./validators/reset-password-validator'), require('./controllers/reset-password-controller'))
 
 /**
  * Name: Email Confirmation
@@ -48,6 +48,6 @@ router.post('/reset', guest, require('./validators/reset-password-validator'), r
  * Role: 
  * Description: Confirm email is genuine
  */
-router.get('/confirm/:token', require('./controllers/confirmation-controller'));
+router.get('/confirm/:token', require('./controllers/confirmation-controller'))
 
-module.exports = router;
+module.exports = router

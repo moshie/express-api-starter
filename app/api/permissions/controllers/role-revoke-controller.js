@@ -1,16 +1,16 @@
-"use strict";
+'use strict'
 
-const { validationResult } = require('express-validator/check');
-const revokePermissionFromRoles = require('../helpers/revoke-permission-from-roles');
+const { validationResult } = require('express-validator/check')
+const revokePermissionFromRoles = require('../helpers/revoke-permission-from-roles')
 
 exports.revokeMultiple = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
             errors: errors.array()
-        });
+        })
     }
 
     if (!req.params.permission_name) {
@@ -20,7 +20,7 @@ exports.revokeMultiple = function (req, res) {
                 title: 'No permission specified',
                 detail: 'Define a permission to revoke'
             }]
-        });
+        })
     }
 
     return revokePermissionFromRoles(req.params.permission_name, req.body.roles)
@@ -43,7 +43,7 @@ exports.revokeMultiple = function (req, res) {
                 title: 'There was a problem revoking the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -56,15 +56,15 @@ exports.revokeSingular = function (req, res) {
                 title,
                 detail
             }]
-        });
+        })
     }
 
     if (!req.params.permission_name) {
-        return badRequest('No permission specified', 'Define a permission name to revoke');
+        return badRequest('No permission specified', 'Define a permission name to revoke')
     }
 
     if (!req.params.role_name) {
-        return badRequest('No role specified', 'Define a role name to revoke from');
+        return badRequest('No role specified', 'Define a role name to revoke from')
     }
 
     return revokePermissionFromRoles(req.params.permission_name, [req.params.role_name])
@@ -87,6 +87,6 @@ exports.revokeSingular = function (req, res) {
                 title: 'There was a problem revoking the permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

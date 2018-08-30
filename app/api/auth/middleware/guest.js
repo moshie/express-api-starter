@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /**
  * Stop authenticated users requesting guest endpoints
@@ -14,10 +14,10 @@ function authenticate(req, res, next) {
             meta: { 
                 message: 'You are not authorised to view this page'
             }
-        });
+        })
     }
 
-    next();
+    next()
 }
 
-module.exports = authenticate;
+module.exports = authenticate

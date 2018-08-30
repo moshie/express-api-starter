@@ -1,18 +1,18 @@
-"use strict";
+'use strict'
 
 function hasRoles(usersRoles, roles) {
-    var hasRole = false;
+    var hasRole = false
 
-    usersRoles = usersRoles.map(role => role.name);
+    usersRoles = usersRoles.map(role => role.name)
 
     for (let i = 0; i < roles.length; i++) {
         if (usersRoles.indexOf(roles[i]) !== -1) {
-            hasRole = true;
-            break;
+            hasRole = true
+            break
         }
     }
 
-    return hasRole;
+    return hasRole
 }
 
-module.exports = hasRoles;
+module.exports = hasRoles

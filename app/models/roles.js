@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const rolesSchema = new Schema({
     display_name: {
@@ -27,6 +27,6 @@ const rolesSchema = new Schema({
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-});
+})
 
-module.exports = mongoose.model('Role', rolesSchema);
+module.exports = mongoose.model('Role', rolesSchema)

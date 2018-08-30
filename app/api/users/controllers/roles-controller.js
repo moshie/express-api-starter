@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const getUserByID = require('../../users/helpers/get-user-by-id');
+const getUserByID = require('../../users/helpers/get-user-by-id')
 
 exports.getAuthenticatedUsersRoles = function (req, res) {
 
@@ -11,7 +11,7 @@ exports.getAuthenticatedUsersRoles = function (req, res) {
                 title: 'Invalid Token',
                 detail: 'User is not authenticated'
             }]
-        });
+        })
     }
 
     return getUserByID(res.locals.token.user)
@@ -34,7 +34,7 @@ exports.getAuthenticatedUsersRoles = function (req, res) {
                 title: 'There was a problem getting the users roles',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -47,7 +47,7 @@ exports.getUsersRoles = function (req, res) {
                 title: 'No user specified',
                 detail: 'Define a user id to retrieve'
             }]
-        });
+        })
     }
 
     getUserByID(req.params.user_id)
@@ -70,6 +70,6 @@ exports.getUsersRoles = function (req, res) {
                 title: 'There was a problem getting the users roles',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

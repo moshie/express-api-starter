@@ -1,7 +1,7 @@
-"use strict";
+'use strict'
 
-const User = require('../../../models/user');
-const ResponseError = require('../../../error-handlers/response-error');
+const User = require('../../../models/user')
+const ResponseError = require('../../../error-handlers/response-error')
 
 function getUserById (id) {
     return new Promise((resolve, reject) => {
@@ -9,16 +9,16 @@ function getUserById (id) {
             .populate('roles')
             .exec(function (err, user) {
                 if (err) {
-                    return reject(new ResponseError(err.message));
+                    return reject(new ResponseError(err.message))
                 }
 
                 if (user === null) {
-                    return reject(new ResponseError('User Not Found', 404));
+                    return reject(new ResponseError('User Not Found', 404))
                 }
 
-                resolve(user);
-            });
-    });
+                resolve(user)
+            })
+    })
 }
 
-module.exports = getUserById;
+module.exports = getUserById

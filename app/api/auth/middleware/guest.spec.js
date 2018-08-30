@@ -1,10 +1,10 @@
-"use strict";
+'use strict'
 
-const { expect } = require('chai');
-const sinon = require('sinon');
-const httpMocks = require('node-mocks-http');
+const { expect } = require('chai')
+const sinon = require('sinon')
+const httpMocks = require('node-mocks-http')
 
-const guestMiddleware = require('./guest');
+const guestMiddleware = require('./guest')
 
 describe('Guest Middleware', function () {
 
@@ -14,36 +14,36 @@ describe('Guest Middleware', function () {
             method: 'GET',
             url: '/',
             headers: { authorization: '' }
-        });
-        const response = httpMocks.createResponse();
+        })
+        const response = httpMocks.createResponse()
 
-        guestMiddleware(request, response);
+        guestMiddleware(request, response)
 
-        var body = JSON.parse(response._getData());
+        var body = JSON.parse(response._getData())
 
         expect(body).to.have.deep.property('meta', {
             message: 'You are not authorised to view this page'
-        });
+        })
 
-        expect(response.statusCode).to.equal(403);
-        expect(response._isEndCalled()).to.be.ok;
-        expect(response._isJSON()).to.be.ok;
-        expect(response._isUTF8()).to.be.ok;
+        expect(response.statusCode).to.equal(403)
+        expect(response._isEndCalled()).to.be.ok
+        expect(response._isJSON()).to.be.ok
+        expect(response._isUTF8()).to.be.ok
 
-    });
+    })
 
 
     it('should call next if user is not authenticated', function () {
 
-        const request = httpMocks.createRequest();
-        const response = httpMocks.createResponse();
+        const request = httpMocks.createRequest()
+        const response = httpMocks.createResponse()
 
-        var next = sinon.spy();
+        var next = sinon.spy()
 
-        guestMiddleware(request, response, next);
+        guestMiddleware(request, response, next)
 
-        expect(next.calledOnce).to.be.ok;
+        expect(next.calledOnce).to.be.ok
 
-    });
+    })
 
-});
+})

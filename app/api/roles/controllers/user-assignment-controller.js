@@ -1,16 +1,16 @@
-"use strict";
+'use strict'
 
-const { validationResult } = require('express-validator/check');
-const saveRoleToUsers = require('../helpers/save-role-to-users');
+const { validationResult } = require('express-validator/check')
+const saveRoleToUsers = require('../helpers/save-role-to-users')
 
 exports.assignMultiple = function (req, res) {
 
-    const errors = validationResult(req);
+    const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({
             errors: errors.array()
-        });
+        })
     }
 
     if (!req.params.role_name) {
@@ -20,7 +20,7 @@ exports.assignMultiple = function (req, res) {
                 title: 'No role specified',
                 detail: 'Define a role name to assign'
             }]
-        });
+        })
     }
 
     return saveRoleToUsers(req.params.role_name, req.body.users)
@@ -44,7 +44,7 @@ exports.assignMultiple = function (req, res) {
                 title: 'There was a problem assigning roles to user',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
@@ -57,15 +57,15 @@ exports.assignSingular = function (req, res) {
                 title,
                 detail
             }]
-        });
+        })
     }
 
     if (!req.params.role_name) {
-        return badRequest('No role specified', 'Define a role name');
+        return badRequest('No role specified', 'Define a role name')
     }
 
     if (!req.params.user_id) {
-        return badRequest('No user specified', 'Define a user id to assign to');
+        return badRequest('No user specified', 'Define a user id to assign to')
     }
 
     return saveRoleToUsers(req.params.role_name, [req.params.user_id])
@@ -89,6 +89,6 @@ exports.assignSingular = function (req, res) {
                 title: 'There was a problem assigning role to user',
                 detail: err.message
             }]
-        }));
+        }))
 
 }

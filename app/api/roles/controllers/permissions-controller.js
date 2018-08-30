@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const getRoleByName = require('../helpers/get-role-by-name');
+const getRoleByName = require('../helpers/get-role-by-name')
 
 function permissionsController(req, res) {
 
@@ -11,7 +11,7 @@ function permissionsController(req, res) {
                 title: 'No role specified',
                 detail: 'Define a role to retrieve it\'s permissions'
             }]
-        });
+        })
     }
 
     return getRoleByName(req.params.role_name)
@@ -20,9 +20,9 @@ function permissionsController(req, res) {
                 type: 'permission',
                 id: permission._id,
                 attributes: {
-                    display_name: permissions.display_name,
-                    name: permissions.name,
-                    description: permissions.description || '',
+                    display_name: permission.display_name,
+                    name: permission.name,
+                    description: permission.description || '',
                     created_at: permission.created_at,
                     updated_at: permission.updated_at
                 }
@@ -31,11 +31,11 @@ function permissionsController(req, res) {
         .catch(err => res.status(err.statusCode || 500).json({
             errors: [{
                 status: `${err.statusCode || 500}`,
-                title: 'There was a problem retrieving the roles permissions',
+                title: 'There was a problem retrieving the roles permission',
                 detail: err.message
             }]
-        }));
+        }))
 
 }
 
-module.exports = permissionsController;
+module.exports = permissionsController

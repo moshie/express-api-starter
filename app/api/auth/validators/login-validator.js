@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const { body } = require('express-validator/check');
+const { body } = require('express-validator/check')
 
 const loginValidation = [
 
@@ -13,6 +13,6 @@ const loginValidation = [
         .exists().isString().withMessage('Password is invalid')
         .not().isEmpty().withMessage('Password is a required field')
 
-];
+]
 
-module.exports = loginValidation;
+module.exports = loginValidation

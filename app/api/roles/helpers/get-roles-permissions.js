@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-const Role = require('../../../models/roles');
+const Role = require('../../../models/roles')
 
 function getRolesPermissions(roles) {
 
     if (!Array.isArray(roles)) {
-        return [];
+        return []
     }
 
     var promises = roles.map(role => new Promise((resolve, reject) => {
@@ -13,19 +13,19 @@ function getRolesPermissions(roles) {
             .populate({ path: 'permissions', select: 'name' })
             .exec(function (err, _role) {
                 if (err) {
-                    return reject(err);
+                    return reject(err)
                 }
                 
-                resolve(_role === null ? [] : _role.permissions);
+                resolve(_role === null ? [] : _role.permissions)
             })
-    }));
+    }))
 
     return Promise.all(promises)
         .then(permissions => {
             return permissions
                 .reduce((acc, val) => acc.concat(val), [])
-                .filter((permission, index, self) => self.indexOf(permission) === index);
+                .filter((permission, index, self) => self.indexOf(permission) === index)
         })
 }
 
-module.exports = getRolesPermissions;
+module.exports = getRolesPermissions
