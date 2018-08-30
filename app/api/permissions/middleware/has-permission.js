@@ -1,6 +1,6 @@
 'use strict'
 
-const getRolesPermissions = require('../helpers/get-roles-permissions')
+const getRolesPermissions = require('../../roles/helpers/get-roles-permissions')
 const getUserByID = require('../../users/helpers/get-user-by-id')
 
 function hasPermission(permission) {

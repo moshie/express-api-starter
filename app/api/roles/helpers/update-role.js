@@ -1,7 +1,7 @@
 'use strict'
 
 const Role = require('../../../models/roles')
-const ResponseError = require('../../error-handlers/response-error')
+const ResponseError = require('../../../error-handlers/response-error')
 
 function updateRole(name, updatedRole) {
     return new Promise((resolve, reject) => {

@@ -1,7 +1,11 @@
 'use strict'
 
+const bcrypt = require('bcrypt')
 const mailer = require('../../../services/mailer-service')
-const resetPassword = require('../helpers/reset-password')
+const getUserByEmail = require('../../users/helpers/get-user-by-email')
+const resetUserPassword = require('../helpers/reset-user-password')
+const deletePasswordResetEntry = require('../helpers/delete-password-reset-entry')
+const findPasswordResetByEmailAndToken = require('../helpers/find-password-reset-by-email-and-token')
 const { validationResult } = require('express-validator/check')
 
 function resetController(req, res) {
@@ -14,7 +18,10 @@ function resetController(req, res) {
         })
     }
 
-    return resetPassword(req.body.email, req.body.token, req.body.password)
+    return findPasswordResetByEmailAndToken(req.body.email, req.body.token)
+        .then(() => Promise.all([getUserByEmail(req.body.email), bcrypt.hash(req.body.password, 10)]))
+        .then(resetUserPassword)
+        .then(user => deletePasswordResetEntry(user))
         .then(user => {
             mailer().sendMail({
                 from: process.env.WEBSITE_EMAIL,

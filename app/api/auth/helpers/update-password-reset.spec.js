@@ -15,7 +15,10 @@ const PasswordResets = require('../../../models/password-resets')
 describe('Reset user password', function () {
 
     it('should return a promise', function () {
-        expect(updatePasswordReset('test', 'test')).to.be.a('promise')
+        const doc = 'doc'
+        sinon.stub(PasswordResets.prototype, 'save').yields(null, doc)
+        expect(updatePasswordReset('test@test.com', 'test')).to.be.a('promise')
+        sinon.restore()
     })
 
     it('should resolve with new password reset', function () {

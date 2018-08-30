@@ -3,8 +3,8 @@
 const User = require('../../../models/user')
 const getUsers = require('../helpers/get-users')
 const updateUser = require('../helpers/update-user')
-const mailer = require('../../services/mailer-service')
 const findUserById = require('../helpers/get-user-by-id')
+const mailer = require('../../../services/mailer-service')
 const { validationResult } = require('express-validator/check')
 
 exports.store = function (req, res) {

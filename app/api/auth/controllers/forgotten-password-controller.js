@@ -1,8 +1,10 @@
 'use strict'
 
 const mailer = require('../../../services/mailer-service')
+const generateToken = require('../helpers/generate-token')
 const { validationResult } = require('express-validator/check')
-const storePasswordResetToken = require('../helpers/store-password-reset-token')
+const updatePasswordReset = require('../helpers/update-password-reset')
+const findPossibleExistingPasswordReset = require('../helpers/find-possible-existing-password-reset')
 
 function forgottenController(req, res) {
 
@@ -14,7 +16,8 @@ function forgottenController(req, res) {
         })
     }
 
-    return storePasswordResetToken(req.body.email)
+    return findPossibleExistingPasswordReset(req.body.email)
+        .then(doc => generateToken().then(token => updatePasswordReset(req.body.email, token, doc)))
         .then(doc => mailer().sendMail({
             from: process.env.WEBSITE_EMAIL,
             to: req.body.email,
