@@ -117,21 +117,28 @@ describe('Login Controller', function () {
 
     });
 
-        // const request = httpMocks.createRequest({
-        //     method: 'GET',
-        //     url: '/',
-        //     headers: { authorization: '' }
-        // });
+    it('rejects with error code 500 if no error code defined', function () {
+        const errors = {
+            isEmpty: sinon.stub().returns(true)
+        };
+        const validationResult = sinon.stub(check, 'validationResult').returns(errors);
 
-    // it('should resolve with a token', function () {
+        const errorDetail = 'opps';
+        const error = new Error(errorDetail);
 
-    //     var proxiedAuthenticate = proxyquire('./authenticate', {
-    //         '../../users/helpers/get-user-by-email': sinon.stub().resolves('hi'),
-    //         './compare-passwords': sinon.stub().resolves('hello'),
-    //         './generate-jwt': sinon.stub().resolves('token')
-    //     });
+        const mockedController = proxyquire('./login-controller', {
+            '../../users/helpers/get-user-by-email': sinon.stub().rejects(error)
+        });
 
-    //     return expect(proxiedAuthenticate('email', 'password')).to.eventually.equal('token');
-    // })
+        const response = httpMocks.createResponse();
+
+        return mockedController({ body: { email: ''} }, response)
+            .then(thing => {
+                var body = JSON.parse(response._getData());
+
+                expect(response.statusCode).to.equal(500);
+                validationResult.restore();
+            })
+    });
 
 })
