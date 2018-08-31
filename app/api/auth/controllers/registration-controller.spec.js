@@ -184,7 +184,40 @@ describe('Registration Controller', function () {
             })
     })
 
-    it('rejects with error code 500 if no error code defined')
+    it('rejects with error code 500 if no error code defined', function () {
+        const errors = { isEmpty: sinon.stub().returns(true) }
+        const validationResult = sinon.stub(check, 'validationResult').returns(errors)
+        const response = httpMocks.createResponse()
+        const errorDetail = 'oops';
+        const userStub = sinon.stub(User.prototype, 'save').rejects(new Error(errorDetail));
+
+        return registrationController(request, response)
+            .then(() => {
+
+                // Validation
+                expect(validationResult.calledOnce).to.be.true
+                expect(validationResult.calledWith(request)).to.be.true
+                expect(errors.isEmpty.calledOnce).to.be.true
+
+                // Response
+                const body = JSON.parse(response._getData())
+                expect(body).to.have.property('errors')
+                expect(body.errors).to.have.deep.members([{
+                    status: `500`,
+                    title: 'There was a problem registering',
+                    detail: errorDetail
+                }])
+                expect(response.statusCode).to.equal(500)
+                expect(response._isEndCalled()).to.be.ok
+                expect(response._isJSON()).to.be.ok
+                expect(response._isUTF8()).to.be.ok
+
+                // Restore Stubs
+                validationResult.restore()
+                userStub.restore()
+            })
+
+    })
 
     it('defaults last name to an empty string')
 
