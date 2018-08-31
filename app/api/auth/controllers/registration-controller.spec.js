@@ -219,6 +219,58 @@ describe('Registration Controller', function () {
 
     })
 
-    it('defaults last name to an empty string')
+    it('defaults last name to an empty string', function () {
+        const errors = { isEmpty: sinon.stub().returns(true) }
+        const validationResult = sinon.stub(check, 'validationResult').returns(errors)
+        const response = httpMocks.createResponse()
+        const userStub = sinon.stub(User.prototype, 'save').resolves({
+            _id: 'id',
+            last_name: ''
+        })
+        const request = httpMocks.createRequest({
+            method: 'post',
+            url: '/api/v1/auth/register',
+            body: {
+                first_name: fakeUser.first_name,
+                email: fakeUser.email,
+                password: fakeUser.password,
+                password_confirmation: fakeUser.password
+            }
+        })
+        const registrationController = proxyquire('./registration-controller', {
+            '../../../services/mailer-service': sinon.stub().returns({
+                sendMail: sinon.stub()
+            })
+        })
+
+        return registrationController(request, response)
+            .then(() => {
+
+                // Validation
+                expect(validationResult.calledOnce).to.be.true
+                expect(validationResult.calledWith(request)).to.be.true
+                expect(errors.isEmpty.calledOnce).to.be.true
+
+                // Response
+                const body = JSON.parse(response._getData())
+                expect(body).to.have.property('data')
+                expect(body.data).to.deep.include({
+                    type: 'user',
+                    id: 'id'
+                })
+                expect(body.data).to.have.property('attributes')
+                expect(body.data.attributes).to.deep.include({
+                    last_name: ''
+                })
+                expect(response.statusCode).to.equal(201)
+                expect(response._isEndCalled()).to.be.ok
+                expect(response._isJSON()).to.be.ok
+                expect(response._isUTF8()).to.be.ok
+
+                // Restore Stubs
+                validationResult.restore()
+                userStub.restore()
+            })
+    })
 
 })
