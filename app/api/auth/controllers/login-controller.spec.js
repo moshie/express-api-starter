@@ -4,9 +4,6 @@ const chai = require('chai')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 const httpMocks = require('node-mocks-http')
-const chaiAsPromised = require('chai-as-promised')
-
-chai.use(chaiAsPromised)
 
 const expect = chai.expect
 

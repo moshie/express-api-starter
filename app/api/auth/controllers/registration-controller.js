@@ -2,11 +2,11 @@
 
 const User = require('../../../models/user')
 const mailer = require('../../../services/mailer-service')
-const { validationResult } = require('express-validator/check')
+const check = require('express-validator/check')
 
 function registrationController(req, res) {
 
-    const errors = validationResult(req)
+    const errors = check.validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
