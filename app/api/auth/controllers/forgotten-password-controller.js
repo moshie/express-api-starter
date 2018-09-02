@@ -2,13 +2,13 @@
 
 const mailer = require('../../../services/mailer-service')
 const generateToken = require('../helpers/generate-token')
-const { validationResult } = require('express-validator/check')
+const check = require('express-validator/check')
 const updatePasswordReset = require('../helpers/update-password-reset')
 const findPossibleExistingPasswordReset = require('../helpers/find-possible-existing-password-reset')
 
 function forgottenController(req, res) {
 
-    const errors = validationResult(req)
+    const errors = check.validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
