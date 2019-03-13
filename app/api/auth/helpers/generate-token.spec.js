@@ -27,7 +27,7 @@ describe('Generate Password Reset Token', function () {
     })
 
     it('should resolve with a token', function () {
-        var bufferedToken = new Buffer('hello')
+        var bufferedToken = Buffer.from('hello')
         crypto.randomBytes.yields(null, bufferedToken)
 
         return expect(generateToken()).to.eventually.be.a('string').and.to.equal(bufferedToken.toString('hex'))

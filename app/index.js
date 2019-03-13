@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const app = express()
 
-mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true })
+mongoose.connect(process.env.DATABASE_URI, { useCreateIndex: true, useNewUrlParser: true })
 
 app.use(logger('dev'))
 app.use(express.json())
