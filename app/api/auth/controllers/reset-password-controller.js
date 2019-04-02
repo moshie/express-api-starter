@@ -6,11 +6,11 @@ const getUserByEmail = require('../../users/helpers/get-user-by-email')
 const resetUserPassword = require('../helpers/reset-user-password')
 const deletePasswordResetEntry = require('../helpers/delete-password-reset-entry')
 const findPasswordResetByEmailAndToken = require('../helpers/find-password-reset-by-email-and-token')
-const { validationResult } = require('express-validator/check')
+const check = require('express-validator/check')
 
 function resetController(req, res) {
 
-    const errors = validationResult(req)
+    const errors = check.validationResult(req)
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ 
