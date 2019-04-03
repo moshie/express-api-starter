@@ -1,6 +1,6 @@
 'use strict'
 
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const roleHasPermissions = require('./role-has-permissions')
 
 function addPermissionToRole(permission, role) {
@@ -15,7 +15,7 @@ function addPermissionToRole(permission, role) {
 
         role.save(function (err, savedRole) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             resolve(savedRole)

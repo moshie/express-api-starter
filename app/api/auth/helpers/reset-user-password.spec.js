@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const resetUserPassword = require('./reset-user-password')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 describe('Reset user password', function () {
 
@@ -33,7 +33,7 @@ describe('Reset user password', function () {
             save: sinon.stub().yields(new Error(errorMessage), null)
         }
 
-        return expect(resetUserPassword([user, 'newPassword'])).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(resetUserPassword([user, 'newPassword'])).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
 })

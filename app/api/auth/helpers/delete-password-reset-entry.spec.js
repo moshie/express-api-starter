@@ -10,7 +10,7 @@ const expect = chai.expect
 
 const PasswordResets = require('../../../models/password-resets')
 const deletePasswordResetEntry = require('./delete-password-reset-entry')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 describe('Delete Password Reset Entry', function () {
 
@@ -36,7 +36,7 @@ describe('Delete Password Reset Entry', function () {
         const errorMessage = 'opps something went wrong'
         PasswordResets.deleteOne.yields(new Error(errorMessage))
 
-        return expect(deletePasswordResetEntry({ email: 'hello@hello.com' })).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(deletePasswordResetEntry({ email: 'hello@hello.com' })).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
 })

@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const generateToken = require('./generate-token')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const crypto = require('crypto')
 
 describe('Generate Password Reset Token', function () {
@@ -37,7 +37,7 @@ describe('Generate Password Reset Token', function () {
         var errorMessage = 'opps an error occured'
         crypto.randomBytes.yields(new Error(errorMessage))
 
-        return expect(generateToken()).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(generateToken()).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
 })

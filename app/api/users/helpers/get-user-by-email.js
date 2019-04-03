@@ -1,7 +1,7 @@
 'use strict'
 
 const User = require('../../../models/user')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function getUserByEmail (email) {
     return new Promise((resolve, reject) => {
@@ -9,11 +9,11 @@ function getUserByEmail (email) {
             .populate('roles')
             .exec(function (err, user) {
                 if (err) {
-                    return reject(new ResponseError(err.message))
+                    return reject(new ResponseException(err.message))
                 }
 
                 if (user === null) {
-                    return reject(new ResponseError('User Not Found', 404))
+                    return reject(new ResponseException('User Not Found', 404))
                 }
 
                 resolve(user)

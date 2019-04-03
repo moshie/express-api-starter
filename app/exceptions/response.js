@@ -1,12 +1,12 @@
 'use strict'
 
-function ResponseError(message, statusCode) {
+function ResponseException(message, statusCode) {
     Error.captureStackTrace(this, this.constructor)
     this.name = this.constructor.name
     this.message = message
     this.statusCode = statusCode || 500
 }
 
-require('util').inherits(ResponseError, Error)
+require('util').inherits(ResponseException, Error)
 
-module.exports = ResponseError
+module.exports = ResponseException

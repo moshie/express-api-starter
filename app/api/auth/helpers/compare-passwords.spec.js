@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const comparePasswords = require('./compare-passwords')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const bcrypt = require('bcrypt')
 
 describe('Compare Passwords', function () {
@@ -47,7 +47,7 @@ describe('Compare Passwords', function () {
         var errorMessage = 'opps an error occured'
         bcrypt.compare.yields(new Error(errorMessage))
 
-        return expect(comparePasswords(user, 'testing')).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(comparePasswords(user, 'testing')).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
     it('should reject with a 401 response error if user pass does not match', function () {
@@ -57,7 +57,7 @@ describe('Compare Passwords', function () {
         }
         bcrypt.compare.yields(null, false)
 
-        return expect(comparePasswords(user, 'testing')).to.be.eventually.rejectedWith(ResponseError, 'Unauthorized').and.have.property('statusCode', 401)
+        return expect(comparePasswords(user, 'testing')).to.be.eventually.rejectedWith(ResponseException, 'Unauthorized').and.have.property('statusCode', 401)
     })
 
 })

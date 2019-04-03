@@ -1,6 +1,6 @@
 'use strict'
 
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function resetUserPassword([user, password]) {
     return new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ function resetUserPassword([user, password]) {
 
         user.save(function (err, updatedUser) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             resolve(updatedUser)

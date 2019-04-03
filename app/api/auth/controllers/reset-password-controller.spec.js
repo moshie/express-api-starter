@@ -8,7 +8,7 @@ const httpMocks = require('node-mocks-http')
 const expect = chai.expect
 
 const resetPasswordController = require('./reset-password-controller')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const check = require('express-validator/check')
 const bcrypt = require('bcrypt')
 
@@ -174,7 +174,5 @@ describe('Reset Password Controller', function () {
                 validationResult.restore()
             })
     })
-
-    it('rejects with error code 500 if no error code defined')
 
 })

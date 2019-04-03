@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const findPossibleExistingPasswordReset = require('./find-possible-existing-password-reset')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const PasswordResets = require('../../../models/password-resets')
 
 describe('Find possible password reset by email', function () {
@@ -43,7 +43,7 @@ describe('Find possible password reset by email', function () {
         const errorMessage = 'opps something went wrong'
         PasswordResets.findOne.yields(new Error(errorMessage), null)
 
-        return expect(findPossibleExistingPasswordReset('example@test.com')).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(findPossibleExistingPasswordReset('example@test.com')).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
 })

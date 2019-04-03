@@ -1,17 +1,17 @@
 'use strict'
 
 const User = require('../../../models/user')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function confirmAUser(token) {
     return new Promise((resolve, reject) => {
         User.findOne({ confirmation_token: token }, function (err, user) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             if (user === null) {
-                return reject(new ResponseError('Invalid Token', 422))
+                return reject(new ResponseException('Invalid Token', 422))
             }
 
             if (user.confirmed) {
@@ -22,7 +22,7 @@ function confirmAUser(token) {
 
             user.save(function (_err, updatedUser) {
                 if (_err) {
-                    return reject(new ResponseError(_err.message))
+                    return reject(new ResponseException(_err.message))
                 }
 
                 resolve(updatedUser)

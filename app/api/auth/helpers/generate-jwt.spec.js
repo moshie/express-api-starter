@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const generateJwt = require('./generate-jwt')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const jwt = require('jsonwebtoken')
 
 describe('Generate JWT', function () {
@@ -37,7 +37,7 @@ describe('Generate JWT', function () {
         const errorMessage = 'opps something went wrong'
         jwt.sign.yields(new Error(errorMessage), null)
 
-        return expect(generateJwt({_id: ''})).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(generateJwt({_id: ''})).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
 })

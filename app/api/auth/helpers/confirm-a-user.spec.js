@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const confirmAUser = require('./confirm-a-user')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const User = require('../../../models/user')
 
 describe('Confirm a user', function () {
@@ -44,13 +44,13 @@ describe('Confirm a user', function () {
         var errorMessage = 'opps an error occured'
         User.findOne.yields(new Error(errorMessage))
 
-        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
     it('should reject with a 422 if the user is not found', function () {
         User.findOne.yields(null, null)
 
-        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseError, 'Invalid Token').and.have.property('statusCode', 422)
+        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseException, 'Invalid Token').and.have.property('statusCode', 422)
     })
 
     it('should reject with a 422 if the user is not found', function () {
@@ -62,7 +62,7 @@ describe('Confirm a user', function () {
         }
         User.findOne.yields(null, user)
 
-        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500)
+        return expect(confirmAUser('token')).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500)
     })
 
     it('should resolve with the user if the user is not confirmed', function () {

@@ -9,7 +9,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const updatePasswordReset = require('./update-password-reset')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const PasswordResets = require('../../../models/password-resets')
 
 describe('Reset user password', function () {
@@ -37,7 +37,7 @@ describe('Reset user password', function () {
         const errorMessage = 'opps something went wrong'
         sinon.stub(PasswordResets.prototype, 'save').yields(new Error(errorMessage))
 
-        return expect(updatePasswordReset('test@test.com', 'token')).to.be.eventually.rejectedWith(ResponseError, errorMessage).and.have.property('statusCode', 500).then(() => sinon.restore())
+        return expect(updatePasswordReset('test@test.com', 'token')).to.be.eventually.rejectedWith(ResponseException, errorMessage).and.have.property('statusCode', 500).then(() => sinon.restore())
     })
 
     it('should save the token to the passed in document', function () {

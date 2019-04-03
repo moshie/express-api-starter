@@ -1,6 +1,6 @@
 'use strict'
 
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const hasRoles = require('./has-roles')
 
 function updateUserRole(role, user) {
@@ -15,7 +15,7 @@ function updateUserRole(role, user) {
 
         user.save(function (err, savedUser) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             resolve(savedUser)

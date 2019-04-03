@@ -1,7 +1,7 @@
 'use strict'
 
 const Role = require('../../../models/roles')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function getRoleByName(name) {
     return new Promise((resolve, reject) => {
@@ -10,11 +10,11 @@ function getRoleByName(name) {
             .populate('permissions')
             .exec(function (err, role) {
                 if (err) {
-                    return reject(new ResponseError(err.message))
+                    return reject(new ResponseException(err.message))
                 }
 
                 if (role === null) {
-                    return reject(new ResponseError('Role not found', 404))
+                    return reject(new ResponseException('Role not found', 404))
                 }
 
                 resolve(role)

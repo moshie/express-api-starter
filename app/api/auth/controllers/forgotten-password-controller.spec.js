@@ -8,7 +8,7 @@ const httpMocks = require('node-mocks-http')
 const expect = chai.expect
 
 const forgottenPasswordController = require('./forgotten-password-controller')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const check = require('express-validator/check')
 
 describe('Forgotten Password Controller', function () {
@@ -114,7 +114,7 @@ describe('Forgotten Password Controller', function () {
 
         const errorDetail = 'opps'
         const errorStatus = 500
-        const error = new ResponseError(errorDetail, errorStatus)
+        const error = new ResponseException(errorDetail, errorStatus)
 
         const mockedController = proxyquire('./forgotten-password-controller', {
             '../helpers/find-possible-existing-password-reset': sinon.stub().rejects(error)

@@ -1,13 +1,13 @@
 'use strict'
 
 const PasswordResets = require('../../../models/password-resets')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function deletePasswordResetEntry(user) {
     return new Promise((resolve, reject) => {
         PasswordResets.deleteOne({ email: user.email }, function (err) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             resolve(true)

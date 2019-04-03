@@ -8,7 +8,7 @@ const httpMocks = require('node-mocks-http')
 const expect = chai.expect
 
 const confirmationController = require('./confirmation-controller')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 describe('Confirmation Controller', function () {
 
@@ -60,7 +60,7 @@ describe('Confirmation Controller', function () {
 
         const errorDetail = 'opps'
         const errorStatus = 500
-        const error = new ResponseError(errorDetail, errorStatus)
+        const error = new ResponseException(errorDetail, errorStatus)
 
         const mockedController = proxyquire('./confirmation-controller', {
             '../helpers/confirm-a-user': sinon.stub().rejects(error)

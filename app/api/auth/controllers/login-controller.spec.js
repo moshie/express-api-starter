@@ -8,7 +8,7 @@ const httpMocks = require('node-mocks-http')
 const expect = chai.expect
 
 const loginController = require('./login-controller')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const check = require('express-validator/check')
 
 describe('Login Controller', function () {
@@ -86,7 +86,7 @@ describe('Login Controller', function () {
 
         const errorDetail = 'opps'
         const errorStatus = 500
-        const error = new ResponseError(errorDetail, errorStatus)
+        const error = new ResponseException(errorDetail, errorStatus)
 
         const mockedController = proxyquire('./login-controller', {
             '../../users/helpers/get-user-by-email': sinon.stub().rejects(error)

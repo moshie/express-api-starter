@@ -8,7 +8,7 @@ const httpMocks = require('node-mocks-http')
 const expect = chai.expect
 
 const registrationController = require('./registration-controller')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 const check = require('express-validator/check')
 const User = require('../../../models/user')
 
@@ -155,7 +155,7 @@ describe('Registration Controller', function () {
         const validationResult = sinon.stub(check, 'validationResult').returns(errors)
         const response = httpMocks.createResponse()
         const errorDetail = 'oops';
-        const userStub = sinon.stub(User.prototype, 'save').rejects(new ResponseError(errorDetail, 500));
+        const userStub = sinon.stub(User.prototype, 'save').rejects(new ResponseException(errorDetail, 500));
 
         return registrationController(request, response)
             .then(() => {

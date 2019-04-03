@@ -1,13 +1,13 @@
 'use strict'
 
 const PasswordResets = require('../../../models/password-resets')
-const ResponseError = require('../../../error-handlers/response-error')
+const ResponseException = require('../../../exceptions/response')
 
 function findPossibleExistingPasswordReset(email) {
     return new Promise((resolve, reject) => {
         PasswordResets.findOne({ email }, function (err, doc) {
             if (err) {
-                return reject(new ResponseError(err.message))
+                return reject(new ResponseException(err.message))
             }
 
             resolve(doc)
